@@ -10,9 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Contact {
+model utilisateurs {
   id        Int      @id @default(autoincrement())
-  name     String    @db.VarChar(100)
+  prenom    String    @db.VarChar(50)
+  nom       String    @db.VarChar(100)
   email     String   @db.VarChar(255)
-  phone     String   @db.VarChar(20)
+}
+
+model rappels {
+  id_groupe        Int      @id @default(autoincrement())
+  nom    String    @db.VarChar(50)
+  description       String    @db.VarChar(1000)
+  date     String   @db.date
+}
+
+model groupes {
+  nom String @id 
+
 }
