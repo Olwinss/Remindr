@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-11-29T09:59:14.582Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36" etag="ba9P0t_u38H30xOWI8nK" version="22.1.4" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2023-11-29T10:00:05.371Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36" etag="CltRFISywfUgLp_blBSg" version="22.1.4" type="github" pages="2">
   <diagram name="MCD" id="td3lFjBkR0syqM5A5wFq">
     <mxGraphModel dx="792" dy="1114" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -57,7 +57,7 @@
         <mxCell id="cEvR23GlnFLkeY0y5r-3-12" value="Rappels" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#F5AB50;strokeColor=#909090;fontColor=#1A1A1A;" parent="1" vertex="1">
           <mxGeometry x="414" y="280" width="140" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="cEvR23GlnFLkeY0y5r-3-27" value="Id_groupe" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="cEvR23GlnFLkeY0y5r-3-12" vertex="1">
+        <mxCell id="cEvR23GlnFLkeY0y5r-3-27" value="&lt;span style=&quot;border-color: var(--border-color);&quot;&gt;nom_groupe&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="cEvR23GlnFLkeY0y5r-3-12" vertex="1">
           <mxGeometry y="30" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="cEvR23GlnFLkeY0y5r-3-20" value="nom" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="cEvR23GlnFLkeY0y5r-3-12" vertex="1">
@@ -136,7 +136,7 @@
         <mxCell id="cv5z91Fx_fvlzts_xFd4-14" value="Rappels" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#F5AB50;strokeColor=#909090;fontColor=#1A1A1A;" parent="1" vertex="1">
           <mxGeometry x="567" y="280" width="140" height="210" as="geometry" />
         </mxCell>
-        <mxCell id="cv5z91Fx_fvlzts_xFd4-15" value="&lt;u&gt;#id_groupe&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="cv5z91Fx_fvlzts_xFd4-14" vertex="1">
+        <mxCell id="cv5z91Fx_fvlzts_xFd4-15" value="&lt;u&gt;#nom_groupe&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="cv5z91Fx_fvlzts_xFd4-14" vertex="1">
           <mxGeometry y="30" width="140" height="30" as="geometry" />
         </mxCell>
         <mxCell id="cv5z91Fx_fvlzts_xFd4-16" value="&lt;u&gt;nom&lt;/u&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;labelBackgroundColor=none;fontColor=#1A1A1A;" parent="cv5z91Fx_fvlzts_xFd4-14" vertex="1">
