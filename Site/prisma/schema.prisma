@@ -31,7 +31,3 @@ model rappels {
   time          String    @db.Text
   couleur       String    @db.VarChar(6) // Sera en hexa
 }
-
-model Appartient {
-  Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
-}
