@@ -11,20 +11,27 @@ datasource db {
 }
 
 model utilisateurs {
-  id        Int      @id @default(autoincrement())
-  prenom    String    @db.VarChar(50)
-  nom       String    @db.VarChar(100)
-  email     String   @db.VarChar(255)
+  prenom        String        @db.Text
+  nom           String        @db.Text
+  email         String        @id @db.Text
+  password      String        @db.Text
+}
+
+model groupe {
+  nom           String    @id @db.Text 
+  Rappel rappels[]  @relation("Groupe_rappel")
 }
 
 model rappels {
-  id_groupe        Int      @id @default(autoincrement())
-  nom    String    @db.VarChar(50)
-  description       String    @db.VarChar(1000)
-  date     String   @db.date
+  Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
+  nom_groupe    String    @unique 
+  nom_rappel    String    @id @db.Text
+  description   String    @db.Text
+  date          String    @db.Text
+  time          String    @db.Text
+  couleur       String    @db.VarChar(6) // Sera en hexa
 }
 
-model groupes {
-  nom String @id 
-
+model Appartient {
+  Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
 }
