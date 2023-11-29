@@ -16,18 +16,18 @@ body {
     width: 300px;
 }
 
-.login-container h2 {
+h2 {
     text-align: center;
     color: #333;
 }
 
-.login-container label {
+label {
     display: block;
     margin: 10px 0 5px;
     color: #555;
 }
 
-.login-container input {
+input {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
@@ -36,7 +36,7 @@ body {
     border-radius: 4px;
 }
 
-.login-container button {
+button {
     width: 100%;
     padding: 10px;
     background-color: #4caf50;
@@ -46,6 +46,34 @@ body {
     cursor: pointer;
 }
 
-.login-container button:hover {
+button:hover {
     background-color: #45a049;
+}
+
+.signup-link, .signup-link p {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.signup-link a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+.login-link, .login-link p {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-link a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
 }
