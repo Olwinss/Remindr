@@ -10,9 +10,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Contact {
-  id        Int      @id @default(autoincrement())
-  name     String    @db.VarChar(100)
-  email     String   @db.VarChar(255)
-  phone     String   @db.VarChar(20)
+model utilisateurs {
+  prenom        String        @db.Text
+  nom           String        @db.Text
+  email         String        @id @db.Text
+  password      String        @db.Text
+}
+
+model groupe {
+  nom           String    @id @db.Text 
+  Rappel rappels[]  @relation("Groupe_rappel")
+}
+
+model rappels {
+  Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
+  nom_groupe    String    @unique 
+  nom_rappel    String    @id @db.Text
+  description   String    @db.Text
+  date          String    @db.Text
+  time          String    @db.Text
+  couleur       String    @db.VarChar(6) // Sera en hexa
 }
