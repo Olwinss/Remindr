@@ -5,15 +5,16 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-.login-container {
+.login-container, .dashboard-container {
     background-color: #fff;
-    padding: 20px;
+    padding: 5%;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 80%;
+    max-width: 400px;
 }
 
 h2 {
@@ -50,30 +51,71 @@ button:hover {
     background-color: #45a049;
 }
 
-.signup-link, .signup-link p {
+.signup-link, .signup-link p, .login-link, .login-link p {
     text-align: center;
     margin-top: 15px;
 }
 
-.signup-link a {
+.signup-link a, .login-link a {
     color: #007BFF;
     text-decoration: none;
 }
 
-.signup-link a:hover {
+.signup-link a:hover, .login-link a:hover {
     text-decoration: underline;
 }
 
-.login-link, .login-link p {
+.dashboard-container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.user-info {
+    margin-bottom: 20px;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.widget {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.widget h3 {
+    color: #333;
+}
+
+.logout-link {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 20px;
 }
 
-.login-link a {
+.logout-link a {
     color: #007BFF;
     text-decoration: none;
 }
 
-.login-link a:hover {
+.logout-link a:hover {
     text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+    .login-container, .dashboard-container {
+        width: 90%;
+        max-width: none;
+    }
+
+    .dashboard-content {
+        flex-direction: column;
+    }
 }
