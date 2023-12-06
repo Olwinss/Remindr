@@ -14,6 +14,10 @@ app.get("/",(req,res) =>
     res.sendFile(resolve(__dirname,"Template/inscription.html"));
 });
 
+app.get("/register.js",(req,res) =>
+{
+    res.sendFile(resolve(__dirname,"register.js"));
+});
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });

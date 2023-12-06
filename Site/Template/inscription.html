@@ -1,37 +1,80 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Site/Template/styles.css">
     <title>Page d'inscription</title>
 </head>
+
 <body>
+    <script>
+        async function RegisterUser() {
+            var new_firstname = document.getElementById('new-firstname').value;
+            var new_surname = document.getElementById('new-surname').value;
+            var new_email = document.getElementById('new-email').value;
+            var new_pswd = document.getElementById('new-password').value;
 
-<div class="login-container">
-    <h2>Inscription</h2>
-    <form name="registration" onsubmit="return RegisterUser();"><!--Changer l'action pour envoyer sur le dashboard-->
-        
-        <label for="new_firstname">Prénom:</label>
-        <input type="text" id="new-firstname" name="new-firstname" required>
+            if (new_email && new_pswd && new_surname && new_firstname) {
+                const utilisateurs = {
+                    email: new_email,
+                    prenom: new_firstname,
+                    nom: new_surname,
+                    password: new_pswd,
+                };
 
-        <label for="new_surname">Nom:</label>
-        <input type="text" id="new-surname" name="new-surname" required>
+                try {
+                    const response = await fetch('/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(utilisateurs),
+                    });
 
-        <label for="new_email">Adresse email:</label>
-        <input type="email" id="new-email" name="new-email" required>
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Utilisateur créé avec succès:', data);
+                    } else {
+                        console.error('Erreur lors de la création de l\'utilisateur');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la création de l\'utilisateur :', error);
+                }
+            } else {
+                console.error('Veuillez remplir tous les champs du formulaire.');
+            }
 
-        <label for="new_password">Mot de passe:</label>
-        <input type="password" id="new-password" name="new-password" required>
+            return false; // To prevent the form submission
+        }
+    </script>
 
-        <br><br>
-        <button type="submit">Créer un compte</button>
+    <div class="login-container">
+        <h2>Inscription</h2>
+        <form name="registration" method="get" onsubmit="return RegisterUser();">
+            <label for="new-firstname">Prénom:</label>
+            <input type="text" id="new-firstname" name="new-firstname" required>
 
-        <div class="login-link">
-            <p>Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a></p>
-        </div>
-    </form>
-</div>
+            <label for="new-surname">Nom:</label>
+            <input type="text" id="new-surname" name="new-surname" required>
+
+            <label for="new-email">Adresse email:</label>
+            <input type="email" id="new-email" name="new-email" required>
+
+            <label for="new-password">Mot de passe:</label>
+            <input type="password" id="new-password" name="new-password" required>
+
+            <br><br>
+            <input type="submit" name="submit" value="Submit">Créer un compte</input>
+
+            <div class="login-link">
+                <p>Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a></p>
+            </div>
+        </form>
+    </div>
 
 </body>
+
 </html>
