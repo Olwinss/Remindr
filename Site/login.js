@@ -1,5 +1,5 @@
 async function LoginUser() {
-    console.log("BABA");
+    console.log("ENTREE");
     var log_email = document.registration.email; 
     var log_pswd = document.registration.password;
     if (log_email && log_pswd)
@@ -11,5 +11,5 @@ async function LoginUser() {
             }
         })
     }
-    console.log("BABA2");
+    console.log("SORTIE");
 }
