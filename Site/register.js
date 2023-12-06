@@ -3,7 +3,7 @@ async function RegisterUser() {
     var new_surname = document.registration.new_surname
     var new_email = document.registration.new_email; 
     var new_pswd = document.registration.new_password;
-    if (new_email && new_pswd)
+    if (new_email && new_psw && new_surname && new_firstname)
     {
         utilisateurs = {
             email: new_email,
@@ -11,7 +11,7 @@ async function RegisterUser() {
             nom: new_surname, 
             password: new_pswd,
         }
-        const createUser = await prisma.utilisateurs.create({ data: utilisateurs, })
+        const createUser = await prisma.utilisateurs.create({ data: utilisateurs })
     }
 
 }

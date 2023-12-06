@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="Site/Template/styles.css">
     <title>Page d'inscription</title>
 </head>
 <body>
 
 <div class="login-container">
     <h2>Inscription</h2>
-    <form action="dashboard.html" method="post" name="registration" onsubmit="RegisterUser();"><!--Changer l'action pour envoyer sur le dashboard-->
+    <form name="registration" onsubmit="return RegisterUser();"><!--Changer l'action pour envoyer sur le dashboard-->
         
         <label for="new_firstname">Prénom:</label>
         <input type="text" id="new-firstname" name="new-firstname" required>
