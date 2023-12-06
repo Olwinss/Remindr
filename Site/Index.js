@@ -10,6 +10,14 @@ app.get("/", (req, res) => {
     res.sendFile(resolve(__dirname,"Template/login.html"))
 })
 
+app.get("/login.html", (req, res) => {
+    res.sendFile(resolve(__dirname,"Template/login.html"))
+})
+
+app.get("/inscription.html", (req, res) => {
+    res.sendFile(resolve(__dirname,"Template/inscription.html"))
+})
+
 app.get("/dashboard.html", (req, res) => {
     res.sendFile(resolve(__dirname,"Template/dashboard.html"))
 })
