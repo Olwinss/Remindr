@@ -2,6 +2,8 @@ const express = require('express');
 const { resolve } = require ('path');
 const { PrismaClient } = require('@prisma/client')
 
+const { LoginUser } = require('./Controllers/login');
+
 const app = express();
 const prisma = new PrismaClient();
 const port = 3010;
@@ -23,6 +25,7 @@ app.get("/inscription.html", (req, res) => {
 })
 
 app.get("/dashboard.html", (req, res) => {
+    LoginUser(prisma, req, res);
     res.sendFile(resolve(__dirname,"Template/dashboard.html"))
 })
 
