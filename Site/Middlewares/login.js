@@ -18,10 +18,13 @@ async function loginUser(req, res) {
             console.log("Authentification réussie.");
         } else {
             // Aucun utilisateur trouvé
+            console.error(1)
             reject("Aucun utilisateur trouvé pour l'email et le mot de passe fournis.");
         }
     } else {
-        reject("Les informations d'identification sont incomplètes.");
+        console.error(2);
+        reject("Les informations d'identification sont incomplètes");
+
     }
 }
 

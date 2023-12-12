@@ -30,6 +30,15 @@ app.post("/login", bodyParserMiddleware, (req, res) => {
     loginUser(req, res)
     .then(()=>res.sendFile(resolve(__dirname, "Template/dashboard.html")))
     .catch((error) => { 
+        console.log(error);
+        if (error==1)
+        {
+            // dire que mdp ou email incorrect
+        }
+        else if (error==2)
+        {
+            // dire que faut tt remplir 
+        }
         res.sendFile(resolve(__dirname, "Template/login.html")) // + afficher un message d'erreur
     });
 });
