@@ -15,7 +15,7 @@ async function loginUser(req, res) {
                 }
             });
             console.log("L'utilisateur est :");
-            console.log(logUser); // Assuming you want to log the user details
+            console.log(logUser);
         } catch (error) {
             console.error("Error retrieving user:", error);
         }
