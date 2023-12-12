@@ -9,6 +9,8 @@ const app = express();
 const prisma = new PrismaClient();
 const port = 3010;
 
+app.use(express.static('public'))
+
 app.get("/", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/login.html"));
 });
