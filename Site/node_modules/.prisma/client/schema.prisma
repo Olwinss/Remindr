@@ -11,20 +11,26 @@ datasource db {
 }
 
 model utilisateurs {
-  prenom        String        @db.Text
-  nom           String        @db.Text
-  email         String        @id @db.Text
-  password      String        @db.Text
+  prenom                  String        @db.Text
+  nom                     String        @db.Text
+  email                   String        @id @db.Text
+  password                String        @db.Text
+  Groupes_rejoints        groupe[]      @relation("Joined")
+  Groupes_crees           groupe[]      @relation("Creator") 
+
 }
 
 model groupe {
-  nom           String    @id @db.Text 
-  Rappel rappels[]  @relation("Groupe_rappel")
+  nom             String            @id @db.Text 
+  Createur        utilisateurs      @relation("Creator",fields: [email_createur], references: [email]) 
+  email_createur  String            @db.Text
+  Rappel          rappels[]         @relation("Groupe_rappel")
+  Membres         utilisateurs[]    @relation("Joined")
 }
 
 model rappels {
   Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
-  nom_groupe    String    @unique 
+  nom_groupe    String    @db.Text 
   nom_rappel    String    @id @db.Text
   description   String    @db.Text
   date          String    @db.Text
