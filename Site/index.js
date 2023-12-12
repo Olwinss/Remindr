@@ -52,8 +52,20 @@ app.get("/login.html", (req, res) => {
 // Register 
 
 app.post("/register", bodyParserMiddleware, (req, res) => {
-    RegisterUser(req, res);
-    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
+    RegisterUser(req, res)
+    .then(()=> res.sendFile(resolve(__dirname, "Template/dashboard.html")))
+    .catch((error) => {
+        console.log(error);
+        if (error==1)
+        {
+            // dire que mdp ou email incorrect
+        }
+        else if (error==2)
+        {
+            // dire que faut tt remplir 
+        }
+        res.sendFile(resolve(__dirname, "Template/login.html")) // + afficher un message d'erreur
+    })
 });
 
 app.get("/inscription.html", (req, res) => {
