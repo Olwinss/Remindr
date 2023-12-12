@@ -27,8 +27,11 @@ app.get("/styles.css", (req, res) => {
 // Login
 
 app.post("/login", bodyParserMiddleware, (req, res) => {
-    loginUser(req, res);
-    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
+    loginUser(req, res)
+    .then(()=>res.sendFile(resolve(__dirname, "Template/dashboard.html")))
+    .catch((error) => { 
+        res.sendFile(resolve(__dirname, "Template/login.html")) // + afficher un message d'erreur
+    });
 });
 
 
