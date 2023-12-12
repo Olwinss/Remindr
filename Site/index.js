@@ -4,7 +4,7 @@ const { PrismaClient } = require('@prisma/client')
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const exphbs = require('express-handlebars').create({
-    layoutsDir: resolve(__dirname, 'Template/layouts'), // Ajustez le chemin au besoin
+    layoutsDir: resolve(__dirname, 'Template/layouts'), // Chemin des layouts à suivre
     defaultLayout: 'dashboard', // Définissez à false pour désactiver les mises en page
     extname: '.hbs',
     /* autres options de configuration */
@@ -26,7 +26,7 @@ app.use(express.static('public'));
 app.set('views', resolve(__dirname, 'Template'));
 
 app.engine('.hbs', exphbs.engine);
-app.set('view engine', '.hbs');  // Ajout de cette ligne
+app.set('view engine', '.hbs');
 
 
 // Utilisez cookie-parser et express-session middleware
@@ -55,7 +55,7 @@ app.get("/dashboard", (req, res) => {
     if (req.session.user) {
         // Utilisez les informations de la session pour personnaliser le tableau de bord
         const { prenom, nom, email } = req.session.user;
-        res.render('dashboard', { prenom, nom, email });  // Modification de cette ligne
+        res.render('dashboard', { prenom, nom, email });  // On utilise le template handblebars avec les variables récupérées de la session
     } else {
         // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
         res.redirect("/login.html");
@@ -66,7 +66,7 @@ app.get("/dashboard", (req, res) => {
 app.post("/login", bodyParserMiddleware, (req, res) => {
     loginUser(req, res)
         .then((user) => {
-            // Stockez les informations de l'utilisateur dans la session
+            // On stocke les infos de l'utilisateur connecté
             req.session.user = user;
             res.redirect("/dashboard");
         })
@@ -91,7 +91,7 @@ app.get("/login.html", (req, res) => {
 app.post("/register", bodyParserMiddleware, (req, res) => {
     RegisterUser(req, res)
         .then((user) => {
-            // Stockez les informations de l'utilisateur dans la session
+            // On stocke les infos de l'utilisateur connecté
             req.session.user = user;
             res.redirect("/dashboard");
         })
