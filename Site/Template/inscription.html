@@ -1,37 +1,42 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="Site/index.js"></script>
+    <script src="Site/register.js"></script>
     <title>Page d'inscription</title>
 </head>
+
 <body>
 
-<div class="login-container">
-    <h2>Inscription</h2>
-    <form action="dashboard.html" method="post" name="registration" onsubmit="RegisterUser();"><!--Changer l'action pour envoyer sur le dashboard-->
-        
-        <label for="new_firstname">Prénom:</label>
-        <input type="text" id="new-firstname" name="new-firstname" required>
+    <div class="login-container">
+        <h2>Inscription</h2>
+        <form action="/register" name="register" method="post">
+            <label for="new_firstname">Prénom:</label>
+            <input type="text" id="new_firstname" name="new_firstname" required>
 
-        <label for="new_surname">Nom:</label>
-        <input type="text" id="new-surname" name="new-surname" required>
+            <label for="new_surname">Nom:</label>
+            <input type="text" id="new_surname" name="new_surname" required>
 
-        <label for="new_email">Adresse email:</label>
-        <input type="email" id="new-email" name="new-email" required>
+            <label for="new_email">Adresse email:</label>
+            <input type="email" id="new_email" name="new_email" required>
 
-        <label for="new_password">Mot de passe:</label>
-        <input type="password" id="new-password" name="new-password" required>
+            <label for="new_password">Mot de passe:</label>
+            <input type="password" id="new_password" name="new_password" required>
 
-        <br><br>
-        <button type="submit">Créer un compte</button>
-
+            <br><br>
+            <button type="submit">S'inscrire</button>
+        </form>
         <div class="login-link">
             <p>Vous avez déjà un compte ? <a href="login.html">Connectez-vous</a></p>
         </div>
-    </form>
-</div>
+
+    </div>
 
 </body>
+
 </html>
