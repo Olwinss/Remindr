@@ -58,18 +58,18 @@ app.post("/register", bodyParserMiddleware, (req, res) => {
         console.log(error);
         if (error==1)
         {
-            // dire que mdp ou email incorrect
+            // dire que email deja utiliser
         }
         else if (error==2)
         {
             // dire que faut tt remplir 
         }
-        res.sendFile(resolve(__dirname, "Template/login.html")) // + afficher un message d'erreur
+        res.sendFile(resolve(__dirname, "Template/register.html")) // + afficher un message d'erreur
     })
 });
 
-app.get("/inscription.html", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/inscription.html"));
+app.get("/register.html", (req, res) => {
+    res.sendFile(resolve(__dirname, "Template/register.html"));
  
 });
  
@@ -90,10 +90,13 @@ app.get("/dashboard.html", (req, res) => {
 
 // affichage groupes
 
-app.get("/groupe", bodyParserMiddleware,(req, res) => {
-    res.sendFile(resolve(__dirname, "Template/groupe.html"));
+app.get('/groupe/:groupName', (req, res) => {
+    const groupName = req.params.groupName;
+    // Créer une fonction générant le code html pour ce groupe
+    const html = groupName; // mettre le code html ici
+    res.send(html);
+    //res.send(`Vous avez cliqué sur le groupe : ${groupName}`);
 });
-
 // Ajout dans groupes 
 
 app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => {
