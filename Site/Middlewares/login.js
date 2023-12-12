@@ -15,7 +15,7 @@ async function loginUser(req, res) {
 
         if (logUser) {
             // L'utilisateur a été trouvé
-            console.log("L'utilisateur est :", logUser);
+            console.log("Authentification réussie.");
         } else {
             // Aucun utilisateur trouvé
             console.log("Aucun utilisateur trouvé pour l'email et le mot de passe fournis.");
