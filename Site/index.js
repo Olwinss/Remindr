@@ -3,6 +3,13 @@ const { resolve } = require('path');
 const { PrismaClient } = require('@prisma/client')
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
+const exphbs = require('express-handlebars').create({
+    layoutsDir: resolve(__dirname, 'Template/layouts'), // Ajustez le chemin au besoin
+    defaultLayout: 'dashboard', // Définissez à false pour désactiver les mises en page
+    extname: '.hbs',
+    /* autres options de configuration */
+  });
+
 
 const { RegisterUser } = require('./Middlewares/register');
 const { loginUser } = require('./Middlewares/login');
@@ -15,6 +22,12 @@ const prisma = new PrismaClient();
 const port = 3010;
 
 app.use(express.static('public'));
+
+app.set('views', resolve(__dirname, 'Template'));
+
+app.engine('.hbs', exphbs.engine);
+app.set('view engine', '.hbs');  // Ajout de cette ligne
+
 
 // Utilisez cookie-parser et express-session middleware
 app.use(cookieParser());
@@ -42,12 +55,7 @@ app.get("/dashboard", (req, res) => {
     if (req.session.user) {
         // Utilisez les informations de la session pour personnaliser le tableau de bord
         const { prenom, nom, email } = req.session.user;
-        const dashboardHTML = `
-            <!-- Votre code HTML personnalisé pour le tableau de bord -->
-            <h1>Bienvenue ${prenom} ${nom} (${email}) sur le tableau de bord!</h1>
-            <!-- Autres éléments du tableau de bord -->
-        `;
-        res.send(dashboardHTML);
+        res.render('dashboard', { prenom, nom, email });  // Modification de cette ligne
     } else {
         // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
         res.redirect("/login.html");
@@ -85,7 +93,7 @@ app.post("/register", bodyParserMiddleware, (req, res) => {
         .then((user) => {
             // Stockez les informations de l'utilisateur dans la session
             req.session.user = user;
-            res.sendFile(resolve(__dirname, "Template/dashboard.html"));
+            res.redirect("/dashboard");
         })
         .catch((error) => {
             console.log(error);
@@ -108,7 +116,7 @@ app.get("/register.html", (req, res) => {
 
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     CreateGroup(req, res)
-    .then(() =>res.sendFile(resolve(__dirname, "Template/dashboard.html")))
+    .then(() => res.redirect("/dashboard"))
     .catch((error) => {
         console.log(error);
         if (error==1)
@@ -124,11 +132,11 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
 });
 
 
-// Dashboard 
+// // Dashboard 
 
-app.get("/dashboard.html", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
-});
+// app.get("/dashboard.html", (req, res) => {
+//     res.sendFile(resolve(__dirname, "Template/layouts/dashboard.html"));
+// });
 
 // Groupes
 
