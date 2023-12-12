@@ -2,7 +2,8 @@
 
 Page de création d'un compte : fait
 Création d'un dashboard : Fait
-Page de création d'un groupe : 
+
+Page de création d'un groupe --> Olwins
 Nom unique pour les groupes --> primary key donc fait
 Ajout d'utilisateurs dans un groupe par le owner
 
