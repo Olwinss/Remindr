@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="groupe.css">
+    <title>Page du Groupe</title>
+</head>
+<body>
+
+    <header>
+        <h1>Page du Groupe</h1>
+        <button id="addUserBtn">Ajouter un Utilisateur</button>
+    </header>
+
+    <section id="reminders">
+        <h2>Rappels</h2>
+        <ul>
+            <li>Rappel 1</li>
+            <li>Rappel 2</li>
+            <li>Rappel 3</li>
+        </ul>
+    </section>
+
+    <button onclick="openPopup()">Ajouter un utilisateur</button>
+
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <span id="close-btn" onclick="closePopup()">&times;</span>
+            <h2>Ajouter un utilisateur</h2>
+            <form action="/creategroupe" method="post">
+                <label for="groupename">email :</label>
+                <input type="text" id="groupename" name="groupename" required>
+                <br>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+    
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

@@ -76,6 +76,11 @@ app.get("/dashboard.html", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/dashboard.html"));
 });
 
+// affichage groupes
+
+app.get("/groupe", bodyParserMiddleware,(req, res) => {
+    res.sendFile(resolve(__dirname, "Template/groupe.html"));
+});
 
 
 app.listen(port, () => {
