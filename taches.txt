@@ -1,0 +1,29 @@
+// Système de base 
+
+Page de création d'un compte : fait
+Création d'un dashboard : Fait
+Page de création d'un groupe : 
+Nom unique pour les groupes --> primary key donc fait
+Ajout d'utilisateurs dans un groupe par le owner
+
+// Système de rappel 
+
+Possibilité d'ajouter un rappel dans un groupe 
+Rappel : { nom:"", description:"", date_echeance:"", heure_echeance:"", couleur:""}
+Ordonner les rappels en fonctions des écheances
+
+// Affichage dashboard
+
+Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe 
+afficher la liste des groupes de l'utilisateur 
+
+Modification et suppression des rappels par les utilisateurs
+
+// Page pour un groupe 
+
+Affichage de ses rappels de manière antéchronologique
+Ajout d'une fonction pour voir les rappels dépassés --> mettre un style différent.
+
+Rédiger la documention 
+
+Y'a des bonus donc go les voir si on veut !
