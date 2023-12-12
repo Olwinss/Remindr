@@ -5,6 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css">
     <title>Tableau de bord</title>
+    <style>
+        /* Ajoutez ici le style du pop-up */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+        }
+
+        #close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+        }
+    </style>
 </head>
 <body>
 
@@ -32,12 +69,37 @@
                 <li>.........</li>
             </ul>
         </div>
+
+        <button onclick="openPopup()">Créer un Groupe</button>
+
+        <div class="overlay" id="overlay">
+            <div class="popup">
+                <span id="close-btn" onclick="closePopup()">&times;</span>
+                <h2>Créer un Groupe</h2>
+                <form action="/creategroupe" method="post">
+                    <label for="groupename">Nom du Groupe:</label>
+                    <input type="text" id="groupename" name="groupename" required>
+                    <br>
+                    <button type="submit">Créer</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <div class="logout-link">
         <p><a href="login.html">Se déconnecter</a></p>
     </div>
 </div>
+
+<script>
+    function openPopup() {
+        document.getElementById('overlay').style.display = 'flex';
+    }
+
+    function closePopup() {
+        document.getElementById('overlay').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
