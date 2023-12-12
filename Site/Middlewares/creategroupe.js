@@ -1,29 +1,31 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function CreateGroup(req,res) {
-    console.log(req.body);
-    const name = req.body.groupename;
-    const creator = "labrosseolivier2004@gmail.com" // adapter pour avoir l'email de la session
-    if (name) {
-        groupe = {
-            nom: name,
-            email_createur: creator,
-        }
-        try {
-            const createUser = await prisma.groupe.create({ data: groupe })
-            console.log('Groupe créé avec succès');
-        }
-        catch (error) {
-            console.error('Erreur lors de la création du groupe :', error);
-        }
-    }
-    else
-    { 
-        console.error('Veuillez entrer un nom de groupe.');
+function CreateGroup(req, res) {
+    return new Promise(async (resolve, reject) => {
+        console.log(req.body);
+        const name = req.body.groupename;
+        const creator = "labrosseolivier2004@gmail.com"; // Adapter pour avoir l'email de la session
 
-        return false; // Pour empêcher la soumission du formulaire
-    }
+        if (name) {
+            const groupe = {
+                nom: name,
+                email_createur: creator,
+            };
+
+            try {
+                const createUser = await prisma.groupe.create({ data: groupe });
+                console.log('Groupe créé avec succès');
+                resolve(createUser); 
+            } catch (error) { // Nom déjà utiliser
+                console.error(1);
+                reject(error); 
+            }
+        } else {
+            console.error(2);
+            reject("Impossible de recupere le nom"); 
+        }
+    });
 }
 
 module.exports = { CreateGroup };
