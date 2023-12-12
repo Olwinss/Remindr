@@ -1,14 +1,12 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-async function CreateGroup(req,res) {
+async function AddUserInGroup(req,res) {
     console.log(req.body);
-    const name = req.body.groupename;
-    const creator = "labrosseolivier2004@gmail.com"
+    const email = req.body.new_user_email;
     if (name) {
         groupe = {
             nom: name,
-            createur: creator,
         }
         try {
             const createUser = await prisma.groupe.create({ data: groupe })
@@ -26,4 +24,4 @@ async function CreateGroup(req,res) {
     }
 }
 
-module.exports = { CreateGroup };
+module.exports = { AddUserInGroup };
