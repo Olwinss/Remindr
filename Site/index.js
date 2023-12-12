@@ -33,6 +33,7 @@ app.post("/register", bodyParserMiddleware, (req, res) => {
 app.get("/register.js",(req,res) =>
 {
     res.sendFile(resolve(__dirname,"register.js"));
+});
  
 app.get("/inscription.html", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/inscription.html"));
