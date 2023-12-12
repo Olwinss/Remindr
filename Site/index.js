@@ -14,6 +14,8 @@ const port = 3010;
 
 app.use(express.static('public'));
 
+// Racine du site
+
 app.get("/", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/login.html"));
 });
@@ -22,6 +24,12 @@ app.get("/", (req, res) => {
 
 app.get("/styles.css", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/styles.css"));
+});
+
+// Dashboard 
+
+app.get("/dashboard", (req, res) => {
+    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
 });
 
 // Login
@@ -58,18 +66,18 @@ app.post("/register", bodyParserMiddleware, (req, res) => {
         console.log(error);
         if (error==1)
         {
-            // dire que mdp ou email incorrect
+            // dire que email deja utiliser
         }
         else if (error==2)
         {
             // dire que faut tt remplir 
         }
-        res.sendFile(resolve(__dirname, "Template/login.html")) // + afficher un message d'erreur
+        res.sendFile(resolve(__dirname, "Template/register.html")) // + afficher un message d'erreur
     })
 });
 
-app.get("/inscription.html", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/inscription.html"));
+app.get("/register.html", (req, res) => {
+    res.sendFile(resolve(__dirname, "Template/register.html"));
  
 });
  
@@ -77,8 +85,20 @@ app.get("/inscription.html", (req, res) => {
 //Groupes 
 
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
-    CreateGroup(req, res);
-    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
+    CreateGroup(req, res)
+    .then(() =>res.sendFile(resolve(__dirname, "Template/dashboard.html")))
+    .catch((error) => {
+        console.log(error);
+        if (error==1)
+        {
+            // dire que nom de groupe déjà utilisé 
+        }
+        else if (error==2)
+        {
+            // dire que impossible de récupérer le nom du groupe
+        }
+    })
+    
 });
 
 
@@ -88,24 +108,39 @@ app.get("/dashboard.html", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/dashboard.html"));
 });
 
-// affichage groupes
+// Groupes
 
-app.get("/groupe", bodyParserMiddleware,(req, res) => {
-    res.sendFile(resolve(__dirname, "Template/groupe.html"));
+app.get('/groupe/:groupName', (req, res) => { // Affichage
+    const groupName = req.params.groupName;
+
+    // Créer une fonction générant le code html pour ce groupe
+    const html = groupName; // mettre le code html ici à la place de groupName
+    res.send(html);
+
 });
 
-// Ajout dans groupes 
-
-app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => {
-    AddUserInGroup(req, res);
-    // renvoyer sur la page du groupe actuel 
-    res.sendFile(resolve(__dirname, "Template/groupe.html"));
+app.post("/groupe/:groupName/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+    AddUserInGroup(req, res,req.params.groupName)
+    .then(() => res.sendFile(resolve(__dirname, "Template/groupe.html"))) // renvoyer sur la page du groupe actuel 
+    .catch((error) => {
+        if (error==1)
+        {
+            // dire que nom de groupe déjà utilisé 
+        }
+        else if (error==2)
+        {
+            // dire que impossible de récupérer le nom du groupe
+        }
+    })
 });
 
 app.get("/adduseringroupe.js",(req,res) =>
 {
     res.sendFile(resolve(__dirname,"adduseringroupe.js"));
 });
+
+
+// Listening port 
 
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
