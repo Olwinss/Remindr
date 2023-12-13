@@ -1,6 +1,15 @@
 const express = require('express');
 const { resolve } = require('path');
 const { PrismaClient } = require('@prisma/client')
+const cookieParser = require("cookie-parser");
+const session = require('express-session');
+const exphbs = require('express-handlebars').create({
+    layoutsDir: resolve(__dirname, 'Template/layouts'), // Chemin des layouts à suivre
+    defaultLayout: 'dashboard', // Définissez à false pour désactiver les mises en page
+    extname: '.hbs',
+    /* autres options de configuration */
+  });
+
 
 const { RegisterUser } = require('./Middlewares/register');
 const { loginUser } = require('./Middlewares/login');
@@ -14,6 +23,20 @@ const port = 3010;
 
 app.use(express.static('public'));
 
+app.set('views', resolve(__dirname, 'Template'));
+
+app.engine('.hbs', exphbs.engine);
+app.set('view engine', '.hbs');
+
+
+// Utilisez cookie-parser et express-session middleware
+app.use(cookieParser());
+app.use(session({
+  secret: 'votre_secret_key',
+  resave: false,
+  saveUninitialized: true,
+}));
+
 // Racine du site
 
 app.get("/", (req, res) => {
@@ -26,29 +49,36 @@ app.get("/styles.css", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/styles.css"));
 });
 
-// Dashboard 
-
+// Dashboard
 app.get("/dashboard", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
+    // Vérifiez si l'utilisateur est connecté en vérifiant la session
+    if (req.session.user) {
+        // Utilisez les informations de la session pour personnaliser le tableau de bord
+        const { prenom, nom, email } = req.session.user;
+        res.render('dashboard', { prenom, nom, email });  // On utilise le template handblebars avec les variables récupérées de la session
+    } else {
+        // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+        res.redirect("/login.html");
+    }
 });
 
 // Login
-
 app.post("/login", bodyParserMiddleware, (req, res) => {
     loginUser(req, res)
-    .then(()=>res.sendFile(resolve(__dirname, "Template/dashboard.html")))
-    .catch((error) => { 
-        console.log(error);
-        if (error==1)
-        {
-            // dire que mdp ou email incorrect
-        }
-        else if (error==2)
-        {
-            // dire que faut tt remplir 
-        }
-        res.sendFile(resolve(__dirname, "Template/login.html")) // + afficher un message d'erreur
-    });
+        .then((user) => {
+            // On stocke les infos de l'utilisateur connecté
+            req.session.user = user;
+            res.redirect("/dashboard");
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error == 1) {
+                // dire que mdp ou email incorrect
+            } else if (error == 2) {
+                // dire que faut tt remplir
+            }
+            res.sendFile(resolve(__dirname, "Template/login.html"));
+        });
 });
 
 
@@ -57,23 +87,23 @@ app.get("/login.html", (req, res) => {
  
 });
 
-// Register 
-
+// Register
 app.post("/register", bodyParserMiddleware, (req, res) => {
     RegisterUser(req, res)
-    .then(()=> res.sendFile(resolve(__dirname, "Template/dashboard.html")))
-    .catch((error) => {
-        console.log(error);
-        if (error==1)
-        {
-            // dire que email deja utiliser
-        }
-        else if (error==2)
-        {
-            // dire que faut tt remplir 
-        }
-        res.sendFile(resolve(__dirname, "Template/register.html")) // + afficher un message d'erreur
-    })
+        .then((user) => {
+            // On stocke les infos de l'utilisateur connecté
+            req.session.user = user;
+            res.redirect("/dashboard");
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error == 1) {
+                // dire que email déjà utilisé
+            } else if (error == 2) {
+                // dire que faut tt remplir
+            }
+            res.sendFile(resolve(__dirname, "Template/register.html"));
+        });
 });
 
 app.get("/register.html", (req, res) => {
@@ -86,7 +116,7 @@ app.get("/register.html", (req, res) => {
 
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     CreateGroup(req, res)
-    .then(() =>res.sendFile(resolve(__dirname, "Template/dashboard.html")))
+    .then(() => res.redirect("/dashboard"))
     .catch((error) => {
         console.log(error);
         if (error==1)
@@ -102,11 +132,11 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
 });
 
 
-// Dashboard 
+// // Dashboard 
 
-app.get("/dashboard.html", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/dashboard.html"));
-});
+// app.get("/dashboard.html", (req, res) => {
+//     res.sendFile(resolve(__dirname, "Template/layouts/dashboard.html"));
+// });
 
 // Groupes
 
