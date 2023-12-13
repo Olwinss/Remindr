@@ -111,6 +111,18 @@ app.get("/register.html", (req, res) => {
  
 });
  
+// Déconnexion
+app.get("/logout", (req, res) => {
+    // Détruire la session
+    req.session.destroy((err) => {
+        if (err) {
+            console.error("Erreur lors de la déconnexion :", err);
+        } else {
+            // Rediriger vers la page de connexion après la déconnexion
+            res.redirect("/login.html");
+        }
+    });
+});
 
 //Groupes 
 
