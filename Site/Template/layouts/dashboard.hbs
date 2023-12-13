@@ -60,6 +60,7 @@
     <div class="dashboard-container">
         <h2>Tableau de bord</h2>
 
+
         <div class="user-info">
             <p>Bienvenue, {{prenom}} {{nom}} !</p>
             <p>Email: {{email}}</p>
@@ -88,7 +89,7 @@
                 <div class="popup">
                     <span id="close-btn" onclick="closePopup()">&times;</span>
                     <h2>Créer un Groupe</h2>
-                    <form action="/creategroupe" method="post">
+                    <form action="/creategroupe" method="get">
                         <label for="groupename">Nom du Groupe:</label>
                         <input type="text" id="groupename" name="groupename" required>
                         <br>
@@ -99,7 +100,7 @@
         </div>
 
         <div class="logout-link">
-            <p><a href="/logout">Se déconnecter</a></p>
+            <p><a href="login.html">Se déconnecter</a></p>
         </div>
     </div>
 
@@ -113,7 +114,7 @@
         }
 
         // Récupérez la liste des éléments li
-        var groupItems = document.querySelectorAll('#groupList li');      
+        var groupItems = document.querySelectorAll('#groupList li');
 
         // Attachez un gestionnaire d'événements de clic à chaque élément li
         groupItems.forEach(function (item) {
