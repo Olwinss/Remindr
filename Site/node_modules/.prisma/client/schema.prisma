@@ -33,7 +33,7 @@ model rappels {
   nom_groupe    String    @db.Text 
   nom_rappel    String    @id @db.Text
   description   String    @db.Text
-  date          String    @db.Text
-  time          String    @db.Text
+  date        DateTime    @db.Date
+  time        DateTime    @db.Time(6)
   couleur       String    @db.VarChar(6) // Sera en hexa
 }
