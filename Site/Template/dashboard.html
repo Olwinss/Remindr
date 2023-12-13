@@ -88,7 +88,7 @@
                 <div class="popup">
                     <span id="close-btn" onclick="closePopup()">&times;</span>
                     <h2>Créer un Groupe</h2>
-                    <form action="/creategroupe" method="get">
+                    <form action="/creategroupe" method="post">
                         <label for="groupename">Nom du Groupe:</label>
                         <input type="text" id="groupename" name="groupename" required>
                         <br>
@@ -113,7 +113,7 @@
         }
 
         // Récupérez la liste des éléments li
-        var groupItems = document.querySelectorAll('#groupList li');
+        var groupItems = document.querySelectorAll('#groupList li');      
 
         // Attachez un gestionnaire d'événements de clic à chaque élément li
         groupItems.forEach(function (item) {

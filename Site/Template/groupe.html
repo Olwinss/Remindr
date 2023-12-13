@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="groupe.css">
+    <link rel="stylesheet" href="/groupe.css">
     <title>Nom_groupe</title>
-</head> 
+    <style>
+
+    </style>
+</head>
+
 <body>
 
     <header>
         <h1>Nom_groupe</h1>
-        <button onclick="openPopup()">Ajouter un utilisateur</button>
-
+        <button onclick="openUserPopup()">Ajouter un utilisateur</button>
+        <button onclick="openReminderPopup()">Ajouter un Rappel</button>
     </header>
 
     <section id="reminders">
@@ -23,13 +28,27 @@
         </ul>
     </section>
 
-    <div class="overlay" id="overlay">
+    <div class="overlay" id="userOverlay">
         <div class="popup">
-            <span id="close-btn" onclick="closePopup()">&times;</span>
+            <span id="close-btn" onclick="closeUserPopup()">&times;</span>
             <h2>Ajouter un utilisateur</h2>
             <form action="/adduseringroupe" method="post">
-                <label for="new_user_email">email :</label>
+                <label for="new_user_email">Email :</label>
                 <input type="text" id="new_user_email" name="new_user_email" required>
+                <input type="hidden" name="groupe" value="groupe"> <!-- changer value pour le nom du groupe-->
+                <br>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="overlay" id="reminderOverlay">
+        <div class="popup">
+            <span id="reminderCloseBtn" onclick="closeReminderPopup()">&times;</span>
+            <h2>Ajouter un Rappel</h2>
+            <form action="/ajouterrappel" method="post">
+                <label for="reminderText">Texte du Rappel:</label>
+                <input type="text" id="reminderText" name="reminderText" required>
                 <br>
                 <button type="submit">Ajouter</button>
             </form>
@@ -37,14 +56,23 @@
     </div>
 
     <script>
-        function openPopup() {
-            document.getElementById('overlay').style.display = 'flex';
+        function openUserPopup() {
+            document.getElementById('userOverlay').style.display = 'flex';
         }
-    
-        function closePopup() {
-            document.getElementById('overlay').style.display = 'none';
+
+        function closeUserPopup() {
+            document.getElementById('userOverlay').style.display = 'none';
+        }
+
+        function openReminderPopup() {
+            document.getElementById('reminderOverlay').style.display = 'flex';
+        }
+
+        function closeReminderPopup() {
+            document.getElementById('reminderOverlay').style.display = 'none';
         }
     </script>
 
 </body>
+
 </html>

@@ -1,21 +1,65 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-function AddUserInGroup(req, res,groupe) {
+async function AddUserInGroup(req, res) {
     return new Promise(async (resolve, reject) => {
-        console.log(req.body);
         const email = req.body.new_user_email;
+        const groupId = req.body.groupe;
 
-        if (email && groupe) {
-            try {
-               // Ajouter un user dans le groupe de la page
-            } catch (error) { // Email non trouvé
-                console.error(1); 
-                reject(error);
+        if (!email || !groupId) {
+            console.error(1); // 'Email ou groupe non valide'
+            reject('Email ou groupe non valide');
+            return;
+        }
+
+        try {
+            const group = await prisma.groupe.findUnique({
+                where: { nom: groupId },
+                include: { Membres: true },
+            });
+
+            if (!group) {
+                console.error('Le groupe n\'existe pas');
+                reject('Le groupe n\'existe pas');
+                return;
             }
-        } else { // Aucun email entré ou groupe non reconnu
-            console.error(2);
-            reject("Aucun email entré ou groupe non reconnu");
+
+            // Vérifier si le membre existe déjà dans le groupe
+            const isMemberAlready = group.Membres.some(member => member.email === email);
+            if (isMemberAlready) {
+                console.error('Le membre fait déjà partie du groupe');
+                reject('Le membre fait déjà partie du groupe');
+                return;
+            }
+
+            const user = await prisma.utilisateurs.findUnique({
+                where: { email: email },
+            });
+
+
+            if (user) {      // Ajouter le membre au groupe
+                await prisma.groupe.update({
+                    where: { nom: groupId },
+                    data: {
+                        Membres: {
+                            connect: { email: email },
+                        },
+                    },
+                });
+
+                console.log('Utilisateur ajouté avec succès');
+                resolve({ success: true });
+            }
+            else
+            {
+                console.log('Impossible de trouver l\'utilisateur');
+                resolve({ success: false });
+            }
+
+        }
+        catch (error) {
+            console.error(error.message);
+            reject(error.message);
         }
     });
 }

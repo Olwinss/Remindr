@@ -112,15 +112,12 @@ app.get("/dashboard.html", (req, res) => {
 
 app.get('/groupe/:groupName', (req, res) => { // Affichage
     const groupName = req.params.groupName;
-
     // Créer une fonction générant le code html pour ce groupe
-    const html = groupName; // mettre le code html ici à la place de groupName
-    res.send(html);
-
+    res.sendFile(resolve(__dirname, "Template/groupe.html"))
 });
 
-app.post("/groupe/:groupName/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un user
-    AddUserInGroup(req, res,req.params.groupName)
+app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+    AddUserInGroup(req, res)
     .then(() => res.sendFile(resolve(__dirname, "Template/groupe.html"))) // renvoyer sur la page du groupe actuel 
     .catch((error) => {
         if (error==1)
