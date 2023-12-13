@@ -117,7 +117,7 @@ app.get("/register.html", (req, res) => {
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     // Vérifiez si l'utilisateur est connecté en vérifiant la session
     console.log("ici")
-    if (req.session.user) {
+    // if (req.session.user) {
         CreateGroup(req, res)
         .then(() => res.redirect("/dashboard"))
         .catch((error) => {
@@ -131,10 +131,10 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
                 // dire que impossible de récupérer le nom du groupe
             }
         })
-    } else {
-        // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
-        res.redirect("/login.html");
-    }
+    // } else {
+    //     // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+    //     res.redirect("/login.html");
+    // }
 
     
 });
