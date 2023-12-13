@@ -115,19 +115,27 @@ app.get("/register.html", (req, res) => {
 //Groupes 
 
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
-    CreateGroup(req, res)
-    .then(() => res.redirect("/dashboard"))
-    .catch((error) => {
-        console.log(error);
-        if (error==1)
-        {
-            // dire que nom de groupe déjà utilisé 
-        }
-        else if (error==2)
-        {
-            // dire que impossible de récupérer le nom du groupe
-        }
-    })
+    // Vérifiez si l'utilisateur est connecté en vérifiant la session
+    console.log("ici")
+    if (req.session.user) {
+        CreateGroup(req, res)
+        .then(() => res.redirect("/dashboard"))
+        .catch((error) => {
+            console.log(error);
+            if (error==1)
+            {
+                // dire que nom de groupe déjà utilisé 
+            }
+            else if (error==2)
+            {
+                // dire que impossible de récupérer le nom du groupe
+            }
+        })
+    } else {
+        // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+        res.redirect("/login.html");
+    }
+
     
 });
 

@@ -5,8 +5,10 @@ function CreateGroup(req, res) {
     return new Promise(async (resolve, reject) => {
         console.log(req.body);
         const name = req.body.groupename;
-        const creator = "labrosseolivier2004@gmail.com"; // Adapter pour avoir l'email de la session
-
+        const email = req.session.user; // Adapter pour avoir l'email de la session
+        const creator = email;
+        console.log(creator)
+        
         if (name) {
             const groupe = {
                 nom: name,
