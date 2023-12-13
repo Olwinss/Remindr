@@ -128,7 +128,6 @@ app.get("/logout", (req, res) => {
 
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     // Vérifiez si l'utilisateur est connecté en vérifiant la session
-    console.log("ici")
     if (req.session.user) {
         CreateGroup(req, res)
         .then(() => res.redirect("/dashboard"))
