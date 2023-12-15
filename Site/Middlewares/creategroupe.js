@@ -3,9 +3,9 @@ const prisma = new PrismaClient();
 
 function CreateGroup(req, res) {
     return new Promise(async (resolve, reject) => {
-        console.log(req.body);
         const name = req.body.groupename;
-        const creator = "labrosseolivier2004@gmail.com"; // Adapter pour avoir l'email de la session
+        const {email} = req.session.user; // On récupère l'email du createur
+        const creator = email;
 
         if (name) {
             const groupe = {
