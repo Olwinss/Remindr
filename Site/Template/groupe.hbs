@@ -14,11 +14,15 @@
 <body>
 
     <header>
+        <button id="toDashboard" onclick="window.location.href='/dashboard'">
+            <span class="back-arrow">&#8592;</span> Retour au dashboard
+        </button>
+
         <h1>{{ groupName }}</h1>
         <button onclick="openUserPopup()">Ajouter un utilisateur</button>
         <button onclick="openReminderPopup()">Ajouter un Rappel</button>
     </header>
-
+    
     <section id="reminders">
         <h2>Rappels</h2>
         <ul>

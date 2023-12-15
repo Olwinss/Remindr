@@ -21,15 +21,16 @@ const app = express();
 const prisma = new PrismaClient();
 const port = 3010;
 
-app.use(express.static('public'));
-
 app.set('views', resolve(__dirname, 'Template'));
 
 app.engine('.hbs', exphbs.engine);
 app.set('view engine', '.hbs');
 
+// Styles 
 
-// Utilisez cookie-parser et express-session middleware
+app.use(express.static('public'));
+
+// Sessions
 app.use(cookieParser());
 app.use(session({
   secret: 'votre_secret_key',
@@ -41,12 +42,6 @@ app.use(session({
 
 app.get("/", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/login.html"));
-});
-
-// Styles 
-
-app.get("/styles.css", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/styles.css"));
 });
 
 // Dashboard
@@ -129,17 +124,17 @@ app.get("/logout", (req, res) => {
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     // Vérifiez si l'utilisateur est connecté en vérifiant la session
     if (req.session.user) {
+        const { prenom, nom, email } = req.session.user;
         CreateGroup(req, res)
         .then(() => res.redirect("/dashboard"))
         .catch((error) => {
-            console.log(error);
             if (error==1)
             {
-                // dire que nom de groupe déjà utilisé 
+                res.render('dashboard', { prenom, nom, email });// dire que nom de groupe déjà utilisé 
             }
             else if (error==2)
             {
-                // dire que impossible de récupérer le nom du groupe
+                res.render('dashboard', { prenom, nom, email });// dire que impossible de récupérer le nom du groupe
             }
         })
     } else {
@@ -149,13 +144,6 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
 
     
 });
-
-
-// // Dashboard 
-
-// app.get("/dashboard.html", (req, res) => {
-//     res.sendFile(resolve(__dirname, "Template/layouts/dashboard.html"));
-// });
 
 // Groupes
 
@@ -169,27 +157,26 @@ app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un 
     const groupName = req.body.groupe;
     AddUserInGroup(req, res)
     .then(() => {
-        res.render('groupe', { groupName });
+        res.redirect("/groupe/" + groupName);
     }) // renvoyer sur la page du groupe actuel 
     .catch((error) => {
         if (error==1)
         {
-            res.render('groupe', { groupName });
+            res.redirect("/groupe/" + groupName);
             // groupe non trouvé 
         }
         else if (error==2)
         {
-            res.render('groupe', { groupName });
+            res.redirect("/groupe/" + groupName);
             // Déjà dans le groupe 
+        }
+        else if (error==3)
+        {
+            res.redirect("/groupe/" + groupName);
+            // Email ou groupe invalide
         }
     })
 });
-
-app.get("/adduseringroupe.js",(req,res) =>
-{
-    res.sendFile(resolve(__dirname,"adduseringroupe.js"));
-});
-
 
 // Listening port 
 

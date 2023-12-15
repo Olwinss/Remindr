@@ -18,12 +18,12 @@ function CreateGroup(req, res) {
                 console.log('Groupe créé avec succès');
                 resolve(createUser); 
             } catch (error) { // Nom déjà utiliser
-                console.error(1);
-                reject(error); 
+                console.error("Nom déjà utilisé");
+                reject(1); 
             }
         } else {
-            console.error(2);
-            reject("Impossible de recupere le nom"); 
+            console.error("Impossible de recupere le nom");
+            reject(2); 
         }
     });
 }

@@ -7,8 +7,8 @@ async function AddUserInGroup(req, res) {
         const groupId = req.body.groupe;
 
         if (!email || !groupId) {
-            console.error(1); // 'Email ou groupe non valide'
-            reject('Email ou groupe non valide');
+            console.error('Email ou groupe non valide'); // 'Email ou groupe non valide'
+            reject(3);
             return;
         }
 
