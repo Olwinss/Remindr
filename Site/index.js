@@ -124,17 +124,17 @@ app.get("/logout", (req, res) => {
 app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     // Vérifiez si l'utilisateur est connecté en vérifiant la session
     if (req.session.user) {
+        const { prenom, nom, email } = req.session.user;
         CreateGroup(req, res)
         .then(() => res.redirect("/dashboard"))
         .catch((error) => {
-            console.log(error);
             if (error==1)
             {
-                // dire que nom de groupe déjà utilisé 
+                res.render('dashboard', { prenom, nom, email });// dire que nom de groupe déjà utilisé 
             }
             else if (error==2)
             {
-                // dire que impossible de récupérer le nom du groupe
+                res.render('dashboard', { prenom, nom, email });// dire que impossible de récupérer le nom du groupe
             }
         })
     } else {
@@ -157,18 +157,23 @@ app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un 
     const groupName = req.body.groupe;
     AddUserInGroup(req, res)
     .then(() => {
-        res.render('groupe', { groupName });
+        res.redirect("/groupe/" + groupName);
     }) // renvoyer sur la page du groupe actuel 
     .catch((error) => {
         if (error==1)
         {
-            res.render('groupe', { groupName });
+            res.redirect("/groupe/" + groupName);
             // groupe non trouvé 
         }
         else if (error==2)
         {
-            res.render('groupe', { groupName });
+            res.redirect("/groupe/" + groupName);
             // Déjà dans le groupe 
+        }
+        else if (error==3)
+        {
+            res.redirect("/groupe/" + groupName);
+            // Email ou groupe invalide
         }
     })
 });
