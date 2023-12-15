@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/groupe.css">
-    <title>Nom_groupe</title>
+    <title>{{ groupName }}</title>
     <style>
 
     </style>
@@ -14,7 +14,7 @@
 <body>
 
     <header>
-        <h1>Nom_groupe</h1>
+        <h1>{{ groupName }}</h1>
         <button onclick="openUserPopup()">Ajouter un utilisateur</button>
         <button onclick="openReminderPopup()">Ajouter un Rappel</button>
     </header>
@@ -35,7 +35,7 @@
             <form action="/adduseringroupe" method="post">
                 <label for="new_user_email">Email :</label>
                 <input type="text" id="new_user_email" name="new_user_email" required>
-                <input type="hidden" name="groupe" value="groupe"> <!-- changer value pour le nom du groupe-->
+                <input type="hidden" name="groupe" value={{ groupName }}> <!-- changer value pour le nom du groupe-->
                 <br>
                 <button type="submit">Ajouter</button>
             </form>

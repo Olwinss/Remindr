@@ -19,16 +19,16 @@ async function AddUserInGroup(req, res) {
             });
 
             if (!group) {
-                console.error('Le groupe n\'existe pas');
-                reject('Le groupe n\'existe pas');
+                console.error("Groupe inexistant");
+                reject(1);
                 return;
             }
 
             // Vérifier si le membre existe déjà dans le groupe
             const isMemberAlready = group.Membres.some(member => member.email === email);
             if (isMemberAlready) {
-                console.error('Le membre fait déjà partie du groupe');
-                reject('Le membre fait déjà partie du groupe');
+                console.error("Membre déjà présent");
+                reject(2);
                 return;
             }
 

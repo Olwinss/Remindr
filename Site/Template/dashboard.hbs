@@ -1,4 +1,132 @@
-<div class="user-info">
-    <p>Bienvenue, {{prenom}} {{nom}} !</p>
-    <p>Email: {{email}}</p>
-</div>
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Dashboard - {{prenom}} {{nom}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .popup {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+        }
+
+        #close-btn {
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+        }
+
+        #groupList li {
+            list-style-type: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #groupList li:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <h2>Tableau de bord</h2>
+
+        <div class="user-info">
+            <p>Bienvenue, {{prenom}} {{nom}} !</p>
+            <p>Email: {{email}}</p>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="widget">
+                <h3>Statistiques</h3>
+                <p>Nombre total d'utilisateurs: $nb_users</p>
+                <p>Votre nombre de groupe rejoint : $nb_groups</p>
+            </div>
+
+            <div class="widget">
+                <h3>Vos groupes</h3>
+                <ul id="groupList">
+                    <li name="Groupe1" data-action="/groupe/1">Groupe #1</li>
+                    <li name="Groupe2" data-action="/groupe/2">Groupe #2</li>
+                    <li name="Groupe3" data-action="/groupe/3">Groupe #3</li>
+                    <!-- lors de la création auto, il faudra mettre /groupe/lenom -->
+                </ul>
+            </div>
+
+            <button onclick="openPopup()">Créer un Groupe</button>
+
+            <div class="overlay" id="overlay">
+                <div class="popup">
+                    <span id="close-btn" onclick="closePopup()">&times;</span>
+                    <h2>Créer un Groupe</h2>
+                    <form action="/creategroupe" method="post">
+                        <label for="groupename">Nom du Groupe:</label>
+                        <input type="text" id="groupename" name="groupename" required>
+                        <br>
+                        <button type="submit">Créer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="logout-link">
+            <p><a href="/logout">Se déconnecter</a></p>
+        </div>
+    </div>
+
+    <script>
+        function openPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        // Récupérez la liste des éléments li
+        var groupItems = document.querySelectorAll('#groupList li');      
+
+        // Attachez un gestionnaire d'événements de clic à chaque élément li
+        groupItems.forEach(function (item) {
+            item.addEventListener('click', function () {
+                // Récupérez l'URL d'action à partir de l'attribut data-action
+                var actionUrl = item.getAttribute('data-action');
+
+                // Effectuez l'action souhaitée, par exemple, redirigez vers l'URL
+                window.location.href = actionUrl;
+            });
+        });
+    </script>
+
+</body>
+
+</html>

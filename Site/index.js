@@ -4,8 +4,8 @@ const { PrismaClient } = require('@prisma/client')
 const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const exphbs = require('express-handlebars').create({
-    layoutsDir: resolve(__dirname, 'Template/layouts'), // Chemin des layouts à suivre
-    defaultLayout: 'dashboard', // Définissez à false pour désactiver les mises en page
+    layoutsDir: resolve(__dirname, 'Template'), // Chemin des layouts à suivre
+    defaultLayout: false, // Définissez à false pour désactiver les mises en page
     extname: '.hbs',
     /* autres options de configuration */
   });
@@ -162,20 +162,25 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
 app.get('/groupe/:groupName', (req, res) => { // Affichage
     const groupName = req.params.groupName;
     // Créer une fonction générant le code html pour ce groupe
-    res.sendFile(resolve(__dirname, "Template/groupe.html"))
+    res.render('groupe', { groupName });  // On utilise le template handblebars avec les variables récupérées de la session
 });
 
 app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+    const groupName = req.body.groupe;
     AddUserInGroup(req, res)
-    .then(() => res.sendFile(resolve(__dirname, "Template/groupe.html"))) // renvoyer sur la page du groupe actuel 
+    .then(() => {
+        res.render('groupe', { groupName });
+    }) // renvoyer sur la page du groupe actuel 
     .catch((error) => {
         if (error==1)
         {
-            // dire que nom de groupe déjà utilisé 
+            res.render('groupe', { groupName });
+            // groupe non trouvé 
         }
         else if (error==2)
         {
-            // dire que impossible de récupérer le nom du groupe
+            res.render('groupe', { groupName });
+            // Déjà dans le groupe 
         }
     })
 });
