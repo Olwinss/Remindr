@@ -21,15 +21,16 @@ const app = express();
 const prisma = new PrismaClient();
 const port = 3010;
 
-app.use(express.static('public'));
-
 app.set('views', resolve(__dirname, 'Template'));
 
 app.engine('.hbs', exphbs.engine);
 app.set('view engine', '.hbs');
 
+// Styles 
 
-// Utilisez cookie-parser et express-session middleware
+app.use(express.static('public'));
+
+// Sessions
 app.use(cookieParser());
 app.use(session({
   secret: 'votre_secret_key',
@@ -41,12 +42,6 @@ app.use(session({
 
 app.get("/", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/login.html"));
-});
-
-// Styles 
-
-app.get("/styles.css", (req, res) => {
-    res.sendFile(resolve(__dirname, "Template/styles.css"));
 });
 
 // Dashboard
@@ -150,13 +145,6 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
     
 });
 
-
-// // Dashboard 
-
-// app.get("/dashboard.html", (req, res) => {
-//     res.sendFile(resolve(__dirname, "Template/layouts/dashboard.html"));
-// });
-
 // Groupes
 
 app.get('/groupe/:groupName', (req, res) => { // Affichage
@@ -184,12 +172,6 @@ app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un 
         }
     })
 });
-
-app.get("/adduseringroupe.js",(req,res) =>
-{
-    res.sendFile(resolve(__dirname,"adduseringroupe.js"));
-});
-
 
 // Listening port 
 
