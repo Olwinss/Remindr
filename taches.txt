@@ -18,10 +18,9 @@ Ordonner les rappels en fonctions des écheances --> Fait
 Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe 
 afficher la liste des groupes de l'utilisateur 
 
-Modification et suppression des rappels par les utilisateurs
-
 // Page pour un groupe 
 
+Modification et suppression des rappels par les utilisateurs qui l'on crée
 Affichage de ses rappels de manière antéchronologique --> Fait à moitié. Il faut faire la partie html css de la page et gérer la connexion à la base de donnée pour l'affichage.
 --> fait 
 Affichage des rappels avec couleur
@@ -29,4 +28,13 @@ Ajout d'une fonctionnalité pour voir les rappels dépassés --> mettre un style
 
 Rédiger la documention 
 
-Y'a des bonus donc go les voir si on veut !
+Bonus : 
+### Aller Plus Loin (bonus) :
+
+1. **Validation des Tâches :**
+    - Ajoutez la possibilité pour chaque utilisateur du groupe de valider une tâche.
+    - Affichez les icônes ou indicateurs pour montrer qui a validé chaque tâche.
+2. **Affichage des Rappels Dépassés et Non Réalisés sur le Tableau de Bord :**
+    - Sur le tableau de bord, ajoutez une section pour afficher à la fois les rappels dépassés et les rappels non réalisés.
+3. **Utilisation de Quill.js pour la Description des Rappels :**
+    - Intégrez l'éditeur WYSIWYG Quill.js pour améliorer la saisie des descriptions de rappels.
