@@ -186,8 +186,9 @@ app.get("/adduseringroupe.js",(req,res) =>
 
 // Rappels 
 app.post("/ajouterrappel", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+    const groupName = req.body.groupe;
     AddReminderInGroup(req, res)
-    .then(() => res.sendFile(resolve(__dirname, "Template/groupe.html"))) // renvoyer sur la page du groupe actuel 
+    .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
     .catch((error) => {
         if (error==1)
         {

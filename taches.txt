@@ -9,8 +9,8 @@ Ajout d'utilisateurs dans un groupe par le owner  --> Fait
 
 // Système de rappel 
 
-Possibilité d'ajouter un rappel dans un groupe 
-Rappel : { nom:"", description:"", date_echeance:"", heure_echeance:"", couleur:""}
+Possibilité d'ajouter un rappel dans un groupe --> fait 
+Rappel : { nom:"", description:"", date_echeance:"", heure_echeance:"", couleur:""} --> fait
 Ordonner les rappels en fonctions des écheances
 
 // Affichage dashboard
