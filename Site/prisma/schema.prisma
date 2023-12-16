@@ -31,9 +31,11 @@ model groupe {
 model rappels {
   Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
   nom_groupe    String    @db.Text 
-  nom_rappel    String    @id @db.Text
+  nom_rappel    String    @db.Text
   description   String    @db.Text
   date        DateTime    @db.Date
   time        DateTime    @db.Time(6)
   couleur       String    @db.VarChar(7) // Sera en hexa
+
+   @@id([nom_groupe, nom_rappel])
 }
