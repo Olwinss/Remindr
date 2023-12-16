@@ -15,6 +15,7 @@ const { RegisterUser } = require('./Middlewares/register');
 const { loginUser } = require('./Middlewares/login');
 const { CreateGroup } = require('./Middlewares/creategroupe');
 const { AddUserInGroup } = require('./Middlewares/adduseringroup');
+const { AddReminderInGroup } = require('./Middlewares/addremideringroupe.js');
 const { bodyParserMiddleware } = require('./Middlewares/bodyparser');
 
 const app = express();
@@ -176,6 +177,32 @@ app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un 
             // Email ou groupe invalide
         }
     })
+});
+
+app.get("/adduseringroupe.js",(req,res) =>
+{
+    res.sendFile(resolve(__dirname,"adduseringroupe.js"));
+});
+
+// Rappels 
+app.post("/ajouterrappel", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+    AddReminderInGroup(req, res)
+    .then(() => res.sendFile(resolve(__dirname, "Template/groupe.html"))) // renvoyer sur la page du groupe actuel 
+    .catch((error) => {
+        if (error==1)
+        {
+            // dire que nom de groupe déjà utilisé 
+        }
+        else if (error==2)
+        {
+            // dire que impossible de récupérer le nom du groupe
+        }
+    })
+});
+
+app.get("/ajouterrappel.js",(req,res) =>
+{
+    res.sendFile(resolve(__dirname,"ajouterrappel.js"));
 });
 
 // Listening port 

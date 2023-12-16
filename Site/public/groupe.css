@@ -104,7 +104,7 @@ label {
 }
 
 input {
-    width: calc(100% - 16px);
+    width: calc(80% - 16px);
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
@@ -156,15 +156,11 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
     position: relative;
+    width: 60%; /* Ajustez cette valeur en pourcentage ou en pixels selon vos besoins */
+    max-width: 600px; /* Ajoutez une valeur max si nécessaire */
+    margin: auto; /* Pour centrer le popup horizontalement */
 }
 
-#close-btn {
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 18px;
-}
 
 #groupList li {
     list-style-type: none;
@@ -175,4 +171,12 @@ body {
 
 #groupList li:hover {
     background-color: #ccc;
+}
+
+#close-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 18px;
 }
