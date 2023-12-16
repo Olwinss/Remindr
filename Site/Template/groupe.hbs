@@ -22,15 +22,18 @@
         <button onclick="openUserPopup()">Ajouter un utilisateur</button>
         <button onclick="openReminderPopup()">Ajouter un rappel</button>
     </header>
-    
+    <h2>Rappels</h2>
+
     <section id="reminders">
-        <h2>Rappels</h2>
-        <ul>
-            <!-- Faire un affichage stylax pour les rappels -->
-            <li>Rappel 1</li>
-            <li>Rappel 2</li>
-            <li>Rappel 3</li>
-        </ul>
+            {{#reminders}}
+                <div class="reminder-card">
+                    <div class="reminder-title">{{nom_rappel}}</div>
+                    <div class="reminder-description">{{description}}</div>
+                    <div class="reminder-date">Date: {{date}}</div>
+                    <div class="reminder-time">Heure: {{time}}</div>
+
+                </div>
+            {{/reminders}}
     </section>
 
     <div class="overlay" id="userOverlay">
@@ -40,19 +43,19 @@
             <form action="/adduseringroupe" method="post">
                 <label for="new_user_email">Email :</label>
                 <input type="text" id="new_user_email" name="new_user_email" required>
-                <input type="hidden" name="groupe" value={{ groupName }}> 
+                <input type="hidden" name="groupe" value={{ groupName }}>
                 <br>
                 <button type="submit">Ajouter</button>
             </form>
         </div>
     </div>
 
-    <div class="overlay" id="reminderOverlay">
+  <div class="overlay" id="reminderOverlay">
         <div class="popup">
             <span id="close-btn" onclick="closeReminderPopup()">&times;</span>
             <h2>Ajouter un Rappel</h2>
             <form action="/ajouterrappel" method="post">
-                <input type="hidden" name="groupe" value="groupe"> <!-- changer value pour le nom du groupe-->
+                <input type="hidden" name="groupe" value={{ groupName }}> <!-- changer value pour le nom du groupe-->
 
                 <label for="nom">Nom:</label>
                 <input type="text" id="nom" name="nom" required>
@@ -76,10 +79,6 @@
                 <button type="submit">Ajouter</button>
             </form>
         </div>
-        
-        
-    </div>
-
     <script>
         function openUserPopup() {
             document.getElementById('userOverlay').style.display = 'flex';

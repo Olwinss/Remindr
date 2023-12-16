@@ -8,7 +8,7 @@ const exphbs = require('express-handlebars').create({
     defaultLayout: false, // Définissez à false pour désactiver les mises en page
     extname: '.hbs',
     /* autres options de configuration */
-  });
+});
 
 
 const { RegisterUser } = require('./Middlewares/register');
@@ -34,9 +34,9 @@ app.use(express.static('public'));
 // Sessions
 app.use(cookieParser());
 app.use(session({
-  secret: 'votre_secret_key',
-  resave: false,
-  saveUninitialized: true,
+    secret: 'votre_secret_key',
+    resave: false,
+    saveUninitialized: true,
 }));
 
 // Racine du site
@@ -80,7 +80,7 @@ app.post("/login", bodyParserMiddleware, (req, res) => {
 
 app.get("/login.html", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/login.html"));
- 
+
 });
 
 // Register
@@ -104,9 +104,9 @@ app.post("/register", bodyParserMiddleware, (req, res) => {
 
 app.get("/register.html", (req, res) => {
     res.sendFile(resolve(__dirname, "Template/register.html"));
- 
+
 });
- 
+
 // Déconnexion
 app.get("/logout", (req, res) => {
     // Détruire la session
@@ -122,88 +122,113 @@ app.get("/logout", (req, res) => {
 
 //Groupes 
 
-app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
+app.post("/creategroupe", bodyParserMiddleware, (req, res) => {
     // Vérifiez si l'utilisateur est connecté en vérifiant la session
     if (req.session.user) {
         const { prenom, nom, email } = req.session.user;
         CreateGroup(req, res)
-        .then(() => res.redirect("/dashboard"))
-        .catch((error) => {
-            if (error==1)
-            {
-                res.render('dashboard', { prenom, nom, email });// dire que nom de groupe déjà utilisé 
-            }
-            else if (error==2)
-            {
-                res.render('dashboard', { prenom, nom, email });// dire que impossible de récupérer le nom du groupe
-            }
-        })
+            .then(() => res.redirect("/dashboard"))
+            .catch((error) => {
+                if (error == 1) {
+                    res.render('dashboard', { prenom, nom, email });// dire que nom de groupe déjà utilisé 
+                }
+                else if (error == 2) {
+                    res.render('dashboard', { prenom, nom, email });// dire que impossible de récupérer le nom du groupe
+                }
+            })
     } else {
         // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
         res.redirect("/login.html");
     }
 
-    
+
 });
 
 // Groupes
 
-app.get('/groupe/:groupName', (req, res) => { // Affichage
-    const groupName = req.params.groupName;
-    // Créer une fonction générant le code html pour ce groupe
-    res.render('groupe', { groupName });  // On utilise le template handblebars avec les variables récupérées de la session
+app.get('/groupe/:groupName', async (req, res) => {
+    try {
+        const groupName = req.params.groupName;
+        const reminders = await prisma.rappels.findMany({
+            where: { nom_groupe: groupName },
+            orderBy: [
+              {
+                date: 'asc',
+              },
+              {
+                time: 'asc',
+              },
+            ],
+          });
+
+        const Formated_rmdr = formaterRappels(reminders);
+        // Créer une fonction générant le code HTML pour ce groupe
+        res.render('groupe', { groupName, reminders: Formated_rmdr });
+    } catch (error) {
+        console.error('Erreur lors de la récupération des rappels :', error);
+        res.status(500).send('Erreur serveur');
+    }
 });
 
-app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+function formaterRappels(rappels) {
+    const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const optionsTime = { hour: '2-digit', minute: '2-digit' };
+
+    return rappels.map(rappel => {
+        const date = new Date(rappel.date).toLocaleDateString('fr-FR', optionsDate);
+        const time = new Date(rappel.time).toLocaleTimeString('fr-FR', optionsTime);
+
+        return {
+            ...rappel,
+            date: date,
+            time: time
+        };
+    });
+}
+
+app.post("/adduseringroupe", bodyParserMiddleware, (req, res) => { // Ajout d'un user
     const groupName = req.body.groupe;
     AddUserInGroup(req, res)
-    .then(() => {
-        res.redirect("/groupe/" + groupName);
-    }) // renvoyer sur la page du groupe actuel 
-    .catch((error) => {
-        if (error==1)
-        {
+        .then(() => {
             res.redirect("/groupe/" + groupName);
-            // groupe non trouvé 
-        }
-        else if (error==2)
-        {
-            res.redirect("/groupe/" + groupName);
-            // Déjà dans le groupe 
-        }
-        else if (error==3)
-        {
-            res.redirect("/groupe/" + groupName);
-            // Email ou groupe invalide
-        }
-    })
+        }) // renvoyer sur la page du groupe actuel 
+        .catch((error) => {
+            if (error == 1) {
+                res.redirect("/groupe/" + groupName);
+                // groupe non trouvé 
+            }
+            else if (error == 2) {
+                res.redirect("/groupe/" + groupName);
+                // Déjà dans le groupe 
+            }
+            else if (error == 3) {
+                res.redirect("/groupe/" + groupName);
+                // Email ou groupe invalide
+            }
+        })
 });
 
-app.get("/adduseringroupe.js",(req,res) =>
-{
-    res.sendFile(resolve(__dirname,"adduseringroupe.js"));
+app.get("/adduseringroupe.js", (req, res) => {
+    res.sendFile(resolve(__dirname, "adduseringroupe.js"));
 });
 
 // Rappels 
-app.post("/ajouterrappel", bodyParserMiddleware,(req, res) => { // Ajout d'un user
+app.post("/ajouterrappel", bodyParserMiddleware, (req, res) => { // Ajout d'un user
     const groupName = req.body.groupe;
     AddReminderInGroup(req, res)
-    .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
-    .catch((error) => {
-        if (error==1)
-        {
-            // dire que nom de groupe déjà utilisé 
-        }
-        else if (error==2)
-        {
-            // dire que impossible de récupérer le nom du groupe
-        }
-    })
+        .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
+        .catch((error) => {
+            if (error == 1) {
+                // dire que nom de groupe déjà utilisé 
+            }
+            else if (error == 2) {
+                // dire que impossible de récupérer le nom du groupe
+            }
+        })
 });
 
-app.get("/ajouterrappel.js",(req,res) =>
-{
-    res.sendFile(resolve(__dirname,"ajouterrappel.js"));
+app.get("/ajouterrappel.js", (req, res) => {
+    res.sendFile(resolve(__dirname, "ajouterrappel.js"));
 });
 
 // Listening port 
