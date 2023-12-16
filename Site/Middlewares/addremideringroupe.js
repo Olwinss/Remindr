@@ -10,24 +10,15 @@ async function AddReminderInGroup(req, res) {
         const heureEcheance = req.body.heureEcheance;
         const couleur = req.body.couleur;
 
-        console.log({
-            nom_groupe: group_name,
-            nom_rappel: reminder_name,
-            description: description,
-            date: dateEcheance,
-            time: heureEcheance,
-            couleur: couleur,
-        });
-
         if (group_name && reminder_name && description && dateEcheance && heureEcheance && couleur) {
-            const formattedDate = formatDate(dateEcheance);
-            const formattedDate = formatDateTime(dateEcheance, heureEcheance);
+            var Date = createISO8601DateTime(dateEcheance,heureEcheance); // converti au format : yyyy-mm-ddThh:mm:ss.000Z
+
             const rappel = {
                 nom_groupe: group_name,
                 nom_rappel: reminder_name,
                 description: description,
-                date: formattedDate,
-                time: formattedTime,
+                date: Date, 
+                time: Date,
                 couleur: couleur,
             };
 
@@ -46,17 +37,12 @@ async function AddReminderInGroup(req, res) {
     });
 }
 
-function formatDate(inputDate) {
-    // Convertit la date au format ISO-8601
-    const dateObject = new Date(inputDate);
-    return dateObject.toISOString();
-}
-
-// Fonction pour formater la date et l'heure en ISO-8601 DateTime
-function formatDateTime(date, time) {
-    const isoDateTime = new Date(`${date}T${time}:00`).toISOString();
-    return isoDateTime;
-}
-
+function createISO8601DateTime(dateString, timeString) {
+    const [year, month, day] = dateString.split("-");
+    const [hours, minutes] = timeString.split(":");
+    const dateTime = new Date(year, month - 1, day, hours, minutes);
+  
+    return dateTime.toISOString();
+  }
 
 module.exports = { AddReminderInGroup };

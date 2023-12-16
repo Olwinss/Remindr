@@ -35,5 +35,5 @@ model rappels {
   description   String    @db.Text
   date        DateTime    @db.Date
   time        DateTime    @db.Time(6)
-  couleur       String    @db.VarChar(6) // Sera en hexa
+  couleur       String    @db.VarChar(7) // Sera en hexa
 }
