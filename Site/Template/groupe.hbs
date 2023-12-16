@@ -22,16 +22,22 @@
         <button onclick="openUserPopup()">Ajouter un utilisateur</button>
         <button onclick="openReminderPopup()">Ajouter un rappel</button>
     </header>
-    
+
     <section id="reminders">
-        <h2>Rappels</h2>
-        <ul>
-            <!-- Faire un affichage stylax pour les rappels -->
-            <li>Rappel 1</li>
-            <li>Rappel 2</li>
-            <li>Rappel 3</li>
-        </ul>
-    </section>
+    <h2>Rappels</h2>
+    <ul>
+        {{#reminders}}
+        <li>
+            <div class="reminder-card">
+                <h3>{{nom_rappel}}</h3>
+                <p>{{description}}</p>
+                <p>Date: {{date}}</p>
+                <p>Heure: {{time}}</p>
+            </div>
+        </li>
+        {{/reminders}}
+    </ul>
+</section>
 
     <div class="overlay" id="userOverlay">
         <div class="popup">
@@ -40,7 +46,7 @@
             <form action="/adduseringroupe" method="post">
                 <label for="new_user_email">Email :</label>
                 <input type="text" id="new_user_email" name="new_user_email" required>
-                <input type="hidden" name="groupe" value={{ groupName }}> 
+                <input type="hidden" name="groupe" value={{ groupName }}>
                 <br>
                 <button type="submit">Ajouter</button>
             </form>
@@ -52,32 +58,9 @@
             <span id="close-btn" onclick="closeReminderPopup()">&times;</span>
             <h2>Ajouter un Rappel</h2>
             <form action="/ajouterrappel" method="post">
-                <input type="hidden" name="groupe" value="groupe"> <!-- changer value pour le nom du groupe-->
-
-                <label for="nom">Nom:</label>
-                <input type="text" id="nom" name="nom" required>
-                <br>
-                <label for="description">Description:</label>
-                <input type="text" id="description" name="description" required>
-                <br>
-        
-                <label for="dateEcheance">Date d'échéance:</label>
-                <input type="date" id="dateEcheance" name="dateEcheance" required>
-                <br>
-        
-                <label for="heureEcheance">Heure d'échéance:</label>
-                <input type="time" id="heureEcheance" name="heureEcheance" required>
-                <br>
-        
-                <label for="couleur">Couleur:</label>
-                <input type="color" id="couleur" name="couleur" value="#000000" required>
-                <br>
-        
-                <button type="submit">Ajouter</button>
+                <!-- ... (votre formulaire pour ajouter un rappel) -->
             </form>
         </div>
-        
-        
     </div>
 
     <script>

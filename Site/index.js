@@ -148,10 +148,19 @@ app.post("/creategroupe", bodyParserMiddleware,(req, res) => {
 
 // Groupes
 
-app.get('/groupe/:groupName', (req, res) => { // Affichage
-    const groupName = req.params.groupName;
-    // Créer une fonction générant le code html pour ce groupe
-    res.render('groupe', { groupName });  // On utilise le template handblebars avec les variables récupérées de la session
+app.get('/groupe/:groupName', async (req, res) => {
+    try {
+        const groupName = req.params.groupName;
+        const reminders = await prisma.rappels.findMany({
+            where: { nom_groupe: groupName },
+        });
+        console.log(reminders);
+        // Créer une fonction générant le code HTML pour ce groupe
+        res.render('groupe', { groupName, reminders: reminders });  
+    } catch (error) {
+        console.error('Erreur lors de la récupération des rappels :', error);
+        res.status(500).send('Erreur serveur');
+    }
 });
 
 app.post("/adduseringroupe", bodyParserMiddleware,(req, res) => { // Ajout d'un user
