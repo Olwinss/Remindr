@@ -46,17 +46,41 @@ app.get("/", (req, res) => {
 });
 
 // Dashboard
-app.get("/dashboard", (req, res) => {
-    // Vérifiez si l'utilisateur est connecté en vérifiant la session
+// Dans votre route /dashboard
+app.get("/dashboard", async (req, res) => {
     if (req.session.user) {
-        // Utilisez les informations de la session pour personnaliser le tableau de bord
         const { prenom, nom, email } = req.session.user;
-        res.render('dashboard', { prenom, nom, email });  // On utilise le template handblebars avec les variables récupérées de la session
+
+        try {
+            // Obtenez les groupes de l'utilisateur depuis la base de données avec Prisma
+            const user = await prisma.utilisateurs.findUnique({
+                where: { email },
+                include: {
+                    Groupes_rejoints: {
+                        select: { nom: true } // Sélectionnez uniquement le nom du groupe
+                    }
+                }
+            });
+
+            if (!user) {
+                console.error("Utilisateur non trouvé :", email);
+                res.status(404).send('Utilisateur non trouvé');
+                return;
+            }
+
+            const userGroups = user.Groupes_rejoints.map(group => group.nom);
+
+            res.render('dashboard', { prenom, nom, email, userGroups });
+        } catch (error) {
+            console.error("Erreur lors de la récupération des groupes de l'utilisateur :", error);
+            res.status(500).send('Erreur serveur');
+        }
     } else {
-        // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
         res.redirect("/login.html");
     }
 });
+
+
 
 // Login
 app.post("/login", bodyParserMiddleware, (req, res) => {
@@ -127,28 +151,47 @@ app.post("/creategroupe", bodyParserMiddleware, (req, res) => {
     if (req.session.user) {
         const { prenom, nom, email } = req.session.user;
         CreateGroup(req, res)
-            .then(() => res.redirect("/dashboard"))
+            .then(() => {
+                // Après la création réussie, rechargez simplement la page
+                res.redirect("/dashboard");
+            })
             .catch((error) => {
                 if (error == 1) {
-                    res.render('dashboard', { prenom, nom, email });// dire que nom de groupe déjà utilisé 
+                    res.render('dashboard', { prenom, nom, email }); // dire que nom de groupe déjà utilisé 
+                } else if (error == 2) {
+                    res.render('dashboard', { prenom, nom, email }); // dire que impossible de récupérer le nom du groupe
                 }
-                else if (error == 2) {
-                    res.render('dashboard', { prenom, nom, email });// dire que impossible de récupérer le nom du groupe
-                }
-            })
+            });
     } else {
         // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
         res.redirect("/login.html");
     }
-
-
 });
+
 
 // Groupes
 
 app.get('/groupe/:groupName', async (req, res) => {
     try {
         const groupName = req.params.groupName;
+
+        // Vérifiez si l'utilisateur appartient au groupe
+        const user = await prisma.utilisateurs.findUnique({
+            where: { email: req.session.user.email },
+            include: {
+                Groupes_rejoints: {
+                    where: { nom: groupName }, // Filtrez le groupe spécifique
+                    select: { nom: true }
+                }
+            }
+        });
+
+        if (!user || user.Groupes_rejoints.length === 0) {
+            // L'utilisateur n'appartient pas au groupe, rediriger ou envoyer une erreur
+            return res.status(403).send('Accès interdit');
+        }
+
+        // L'utilisateur appartient au groupe, continuez avec la logique existante pour récupérer les rappels, etc.
         const reminders = await prisma.rappels.findMany({
             where: { nom_groupe: groupName },
             orderBy: [
@@ -159,10 +202,9 @@ app.get('/groupe/:groupName', async (req, res) => {
                 time: 'asc',
               },
             ],
-          });
+        });
 
         const Formated_rmdr = formaterRappels(reminders);
-        // Créer une fonction générant le code HTML pour ce groupe
         res.render('groupe', { groupName, reminders: Formated_rmdr });
     } catch (error) {
         console.error('Erreur lors de la récupération des rappels :', error);
