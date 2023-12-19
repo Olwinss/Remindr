@@ -22,7 +22,7 @@ model utilisateurs {
 
 model groupe {
   nom             String            @id @db.Text 
-  Createur        utilisateurs      @relation("Creator",fields: [email_createur], references: [email]) 
+  Createur        utilisateurs      @relation("Creator",fields: [email_createur], references: [email],onDelete: Cascade) 
   email_createur  String            @db.Text
   Rappel          rappels[]         @relation("Groupe_rappel")
   Membres         utilisateurs[]    @relation("Joined")
@@ -34,7 +34,7 @@ model rappels {
   nom_rappel      String            @db.Text
   description     String            @db.Text
   date            DateTime          @db.Date
-  Createur        utilisateurs      @relation("Reminder_Creator",fields: [email_createur], references: [email]) 
+  Createur        utilisateurs      @relation("Reminder_Creator",fields: [email_createur], references: [email], onDelete: Cascade) 
   email_createur  String            @db.Text
   time            DateTime          @db.Time(6)
   couleur         String            @db.VarChar(7) // Sera en hexa
