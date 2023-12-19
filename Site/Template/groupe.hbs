@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/groupe.css">
     <title>{{ groupName }}</title>
     <style>
-
+        
     </style>
 </head>
 
@@ -26,7 +26,7 @@
 
     <section id="reminders">
             {{#reminders}}
-                <div class="reminder-card">
+                <div class="reminder-card" style="background-color: {{couleur}}">
                     <div class="reminder-title">{{nom_rappel}}</div>
                     <div class="reminder-description">{{description}}</div>
                     <div class="reminder-date">Date: {{date}}</div>
