@@ -17,9 +17,9 @@ Ordonner les rappels en fonctions des écheances --> Fait
 Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe --> 
 afficher la liste des groupes de l'utilisateur --> Fait
 
-// Page pour un groupe --> 3/4
+// Page pour un groupe --> Fini
 
-Modification et suppression des rappels par les utilisateurs qui l'ont crée --> En cours
+Modification et suppression des rappels par les utilisateurs qui l'ont crée --> Fini
 Affichage de ses rappels de manière antéchronologique --> Fait 
 Affichage des rappels avec couleur --> Fait
 Ajout d'une fonctionnalité pour voir les rappels dépassés --> mettre un style différent. --> Ez --> Fait

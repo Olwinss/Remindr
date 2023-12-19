@@ -18,6 +18,7 @@ const { AddUserInGroup } = require('./Middlewares/adduseringroup');
 const { AddReminderInGroup } = require('./Middlewares/addremideringroupe.js');
 const { bodyParserMiddleware } = require('./Middlewares/bodyparser');
 const { UpdateReminder } = require('./Middlewares/updatereminder.js');
+const { DeleteReminder } = require('./Middlewares/deletereminder.js');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -205,15 +206,15 @@ app.get('/groupe/:groupName', async (req, res) => {
             ],
         });
 
-        const Formated_rmdr = formaterRappels(reminders);
-        res.render('groupe', { groupName, reminders: Formated_rmdr });
+        const Formated_rmdr = formaterRappels(reminders,req.session.user.email);
+        res.render('groupe', { groupName, reminders: Formated_rmdr});
     } catch (error) {
         console.error('Erreur lors de la récupération des rappels :', error);
         res.status(500).send('Erreur serveur');
     }
 });
 
-function formaterRappels(rappels) {
+function formaterRappels(rappels,user_email) {
     const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const optionsTime = { hour: '2-digit', minute: '2-digit' };
 
@@ -224,7 +225,8 @@ function formaterRappels(rappels) {
         return {
             ...rappel,
             date: date,
-            time: time
+            time: time,
+            user_email: user_email,
         };
     });
 }
@@ -297,9 +299,37 @@ app.get("/updatereminder.js", (req, res) => {
     res.sendFile(resolve(__dirname, "updatereminder.js"));
 });
 
+// 
 
+app.post("/deletereminder",bodyParserMiddleware,(req,res) => {
+    const groupName = req.body.groupe;
+    DeleteReminder(req, res)
+        .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
+        .catch((error) => 
+        {
+            res.redirect("/groupe/" + groupName);
+            if (error == 1) {
+                // dire que nom de groupe déjà utilisé 
+            }
+            else if (error == 2) {
+                // dire que impossible de récupérer le nom du groupe
+            }
+        })
+})
 
-handlebars.registerHelper('GetStyle', function(dateEcheance, heureEcheance, couleur) {
+app.get("/deletereminder.js", (req, res) => {
+    res.sendFile(resolve(__dirname, "deletereminder.js"));
+});
+
+// handlebars Helpers 
+
+handlebars.registerHelper('isCreator', function (reminderCreatorEmail, user_email) 
+{
+    return user_email == reminderCreatorEmail;
+});
+
+handlebars.registerHelper('GetStyle', function(dateEcheance, heureEcheance, couleur) 
+{
     // Récupération de la date actuelle
     var currentDate = new Date();
 

@@ -28,10 +28,17 @@
             <div class="reminder-date">Date: {{date}}</div>
             <div class="reminder-time">Heure: {{time}}</div>
 
-            {{#if isCreator}}
-            <button
-                onclick="openUpdateReminderPopup('{{nom_rappel}}','{{description}}','{{date}}','{{time}}','{{couleur}}')">Modifier</button>
-            <!--<button onclick="deleteReminder('{{nom_rappel}}')">Supprimer le rappel</button> -->
+            {{#if (isCreator email_createur user_email)}}
+            <div class="Managment_buttons">
+                <form action="/deletereminder" method="post">
+                    <input type="hidden" name="groupe" value={{ nom_groupe }}>
+                    <input type="hidden" name="reminder_name" value={{ nom_rappel }}>
+
+                    <button style="margin-top: 20px;"
+                        onclick="openUpdateReminderPopup('{{nom_rappel}}','{{description}}','{{date}}','{{time}}','{{couleur}}')">Modifier</button>
+                    <button type="submit" method="post">Supprimer</button>
+                </form>
+            </div>
             {{/if}}
 
         </div>

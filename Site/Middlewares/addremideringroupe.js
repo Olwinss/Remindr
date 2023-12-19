@@ -9,6 +9,7 @@ async function AddReminderInGroup(req, res) {
         const dateEcheance = req.body.dateEcheance;
         const heureEcheance = req.body.heureEcheance;
         const couleur = req.body.couleur;
+        const { email } = req.session.user; // On récupère l'email du createur
 
         if (group_name && reminder_name && description && dateEcheance && heureEcheance && couleur) {
             var Date = createISO8601DateTime(dateEcheance,heureEcheance); // converti au format : yyyy-mm-ddThh:mm:ss.000Z
@@ -20,6 +21,7 @@ async function AddReminderInGroup(req, res) {
                 date: Date, 
                 time: Date,
                 couleur: couleur,
+                email_createur: email,
             };
 
             try {
