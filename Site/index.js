@@ -61,7 +61,7 @@ app.get("/dashboard", async (req, res) => {
                     }
                 }
             });
-
+            
             if (!user) {
                 console.error("Utilisateur non trouvé :", email);
                 res.status(404).send('Utilisateur non trouvé');
