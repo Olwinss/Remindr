@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/groupe.css">
     <title>{{ groupName }}</title>
-    <style>
-        
-    </style>
 </head>
 
 <body>
@@ -26,7 +23,7 @@
 
     <section id="reminders">
             {{#reminders}}
-                <div class="reminder-card" style="background-color: {{couleur}}">
+                <div class="reminder-card" style="{{GetStyle date time couleur}}">
                     <div class="reminder-title">{{nom_rappel}}</div>
                     <div class="reminder-description">{{description}}</div>
                     <div class="reminder-date">Date: {{date}}</div>

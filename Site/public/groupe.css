@@ -196,7 +196,7 @@ body {
     flex: content;
     flex-wrap: wrap;
     justify-content: center; 
-
+    color : #000000;
 }
 
 .reminder-card-header {
@@ -218,17 +218,17 @@ body {
 
 .reminder-description {
     font-size: 14px;
-    color: #555;
+    color: inherit;
     margin-bottom: 10px;
 }
 
 .reminder-date {
     font-size: 14px;
-    color: #333;
+    color: inherit;
     margin-bottom: 5px;
 }
 
 .reminder-time {
     font-size: 14px;
-    color: #333;
+    color: inherit;
 }
