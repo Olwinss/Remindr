@@ -29,13 +29,13 @@
             <div class="reminder-time">Heure: {{time}}</div>
 
             {{#if (isCreator email_createur user_email)}}
+             <button style="margin-top: 20px;"
+                    onclick="openUpdateReminderPopup('{{nom_rappel}}','{{description}}','{{date}}','{{time}}','{{couleur}}')">Modifier</button>
             <div class="Managment_buttons">
                 <form action="/deletereminder" method="post">
-                    <input type="hidden" name="groupe" value={{ nom_groupe }}>
-                    <input type="hidden" name="reminder_name" value={{ nom_rappel }}>
+                    <input type="hidden" name="groupe" value="{{ nom_groupe }}">
+                    <input type="hidden" name="reminder_name" value="{{ nom_rappel }}">
 
-                    <button style="margin-top: 20px;"
-                        onclick="openUpdateReminderPopup('{{nom_rappel}}','{{description}}','{{date}}','{{time}}','{{couleur}}')">Modifier</button>
                     <button type="submit" method="post">Supprimer</button>
                 </form>
             </div>
@@ -52,7 +52,7 @@
             <form action="/adduseringroupe" method="post">
                 <label for="new_user_email">Email :</label>
                 <input type="text" id="new_user_email" name="new_user_email" required>
-                <input type="hidden" name="groupe" value={{ groupName }}>
+                <input type="hidden" name="groupe" value="{{ groupName }}">
                 <br>
                 <button type="submit">Ajouter</button>
             </form>
@@ -65,7 +65,7 @@
             <span id="close-btn" onclick="closeReminderPopup()">&times;</span>
             <h2>Ajouter un Rappel</h2>
             <form action="/ajouterrappel" method="post">
-                <input type="hidden" name="groupe" value={{ groupName }}>
+                <input type="hidden" name="groupe" value="{{ groupName }}">
 
                 <label for="nom">Nom:</label>
                 <input type="text" id="nom" name="nom" required>
@@ -97,7 +97,7 @@
             <span id="close-btn" onclick="closeUpdateReminderPopup()">&times;</span>
             <h2>Modifier un Rappel</h2>
             <form action="/updatereminder" method="post">
-                <input type="hidden" name="groupe" value={{ groupName }}>
+                <input type="hidden" name="groupe" value="{{ groupName }}">
 
                 <input type="hidden" name="old_reminder_name" id="Update_old_reminder_name" value="">
 

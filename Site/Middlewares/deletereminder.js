@@ -7,7 +7,7 @@ async function DeleteReminder(req, res) {
         const reminder_name = req.body.reminder_name;
 
 
-
+        console.log(reminder_name);
         try {
             const deleteReminder = await prisma.rappels.delete({
                 where: {
@@ -24,6 +24,7 @@ async function DeleteReminder(req, res) {
         {
             reject(error);
         }
+
     });
 }
 
