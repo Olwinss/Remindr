@@ -17,7 +17,7 @@ model utilisateurs {
   password                String        @db.Text
   Groupes_rejoints        groupe[]      @relation("Joined")
   Groupes_crees           groupe[]      @relation("Creator") 
-
+  rappels                 rappels[]     @relation("Reminder_Creator")
 }
 
 model groupe {
@@ -29,13 +29,15 @@ model groupe {
 }
 
 model rappels {
-  Groupe        groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
-  nom_groupe    String    @db.Text 
-  nom_rappel    String    @db.Text
-  description   String    @db.Text
-  date        DateTime    @db.Date
-  time        DateTime    @db.Time(6)
-  couleur       String    @db.VarChar(7) // Sera en hexa
+  Groupe          groupe    @relation("Groupe_rappel",fields: [nom_groupe], references: [nom]) 
+  nom_groupe      String    @db.Text 
+  nom_rappel      String    @db.Text
+  description     String    @db.Text
+  date            DateTime  @db.Date
+  Createur        utilisateurs      @relation("Reminder_Creator",fields: [email_createur], references: [email]) 
+  email_createur  String            @db.Text
+  time            DateTime  @db.Time(6)
+  couleur         String    @db.VarChar(7) // Sera en hexa
 
    @@id([nom_groupe, nom_rappel])
 }

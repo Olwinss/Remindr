@@ -17,6 +17,7 @@ const { CreateGroup } = require('./Middlewares/creategroupe');
 const { AddUserInGroup } = require('./Middlewares/adduseringroup');
 const { AddReminderInGroup } = require('./Middlewares/addremideringroupe.js');
 const { bodyParserMiddleware } = require('./Middlewares/bodyparser');
+const { UpdateReminder } = require('./Middlewares/updatereminder.js');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -272,6 +273,30 @@ app.post("/ajouterrappel", bodyParserMiddleware, (req, res) => { // Ajout d'un u
 app.get("/ajouterrappel.js", (req, res) => {
     res.sendFile(resolve(__dirname, "ajouterrappel.js"));
 });
+
+
+
+app.post("/updatereminder",bodyParserMiddleware,(req,res) => {
+    const groupName = req.body.groupe;
+    
+    UpdateReminder(req, res)
+        .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
+        .catch((error) => 
+        {
+            res.redirect("/groupe/" + groupName);
+            if (error == 1) {
+                // dire que nom de groupe déjà utilisé 
+            }
+            else if (error == 2) {
+                // dire que impossible de récupérer le nom du groupe
+            }
+        })
+})
+
+app.get("/updatereminder.js", (req, res) => {
+    res.sendFile(resolve(__dirname, "updatereminder.js"));
+});
+
 
 
 handlebars.registerHelper('GetStyle', function(dateEcheance, heureEcheance, couleur) {
