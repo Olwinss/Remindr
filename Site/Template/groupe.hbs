@@ -9,7 +9,6 @@
 </head>
 
 <body>
-
     <header>
         <button id="toDashboard" onclick="window.location.href='/dashboard'">
             <span class="back-arrow">&#8592;</span> Retour au dashboard
@@ -22,15 +21,28 @@
     <h2>Rappels</h2>
 
     <section id="reminders">
-            {{#reminders}}
-                <div class="reminder-card" style="{{GetStyle date time couleur}}">
-                    <div class="reminder-title">{{nom_rappel}}</div>
-                    <div class="reminder-description">{{description}}</div>
-                    <div class="reminder-date">Date: {{date}}</div>
-                    <div class="reminder-time">Heure: {{time}}</div>
+        {{#reminders}}
+        <div class="reminder-card" style="{{GetStyle date time couleur}}">
+            <div class="reminder-title">{{nom_rappel}}</div>
+            <div class="reminder-description">{{description}}</div>
+            <div class="reminder-date">Date: {{date}}</div>
+            <div class="reminder-time">Heure: {{time}}</div>
 
-                </div>
-            {{/reminders}}
+            {{#if (isCreator email_createur user_email)}}
+            <div class="Managment_buttons">
+                <form action="/deletereminder" method="post">
+                    <input type="hidden" name="groupe" value={{ nom_groupe }}>
+                    <input type="hidden" name="reminder_name" value={{ nom_rappel }}>
+
+                    <button style="margin-top: 20px;"
+                        onclick="openUpdateReminderPopup('{{nom_rappel}}','{{description}}','{{date}}','{{time}}','{{couleur}}')">Modifier</button>
+                    <button type="submit" method="post">Supprimer</button>
+                </form>
+            </div>
+            {{/if}}
+
+        </div>
+        {{/reminders}}
     </section>
 
     <div class="overlay" id="userOverlay">
@@ -47,12 +59,13 @@
         </div>
     </div>
 
-  <div class="overlay" id="reminderOverlay">
+    <div class="overlay" id="reminderOverlay">
+
         <div class="popup">
             <span id="close-btn" onclick="closeReminderPopup()">&times;</span>
             <h2>Ajouter un Rappel</h2>
             <form action="/ajouterrappel" method="post">
-                <input type="hidden" name="groupe" value={{ groupName }}> <!-- changer value pour le nom du groupe-->
+                <input type="hidden" name="groupe" value={{ groupName }}>
 
                 <label for="nom">Nom:</label>
                 <input type="text" id="nom" name="nom" required>
@@ -60,22 +73,58 @@
                 <label for="description">Description:</label>
                 <input type="text" id="description" name="description" required>
                 <br>
-        
+
                 <label for="dateEcheance">Date d'échéance:</label>
                 <input type="date" id="dateEcheance" name="dateEcheance" required>
                 <br>
-        
+
                 <label for="heureEcheance">Heure d'échéance:</label>
                 <input type="time" id="heureEcheance" name="heureEcheance" required>
                 <br>
-        
+
                 <label for="couleur">Couleur:</label>
                 <input type="color" id="couleur" name="couleur" value="#000000" required>
                 <br>
-        
-                <button type="submit">Ajouter</button>
+
+                <button type="submit">Créer</button>
+
             </form>
         </div>
+    </div>
+
+    <div class="overlay" id="UpdatereminderOverlay">
+        <div class="popup">
+            <span id="close-btn" onclick="closeUpdateReminderPopup()">&times;</span>
+            <h2>Modifier un Rappel</h2>
+            <form action="/updatereminder" method="post">
+                <input type="hidden" name="groupe" value={{ groupName }}>
+
+                <input type="hidden" name="old_reminder_name" id="Update_old_reminder_name" value="">
+
+                <label for="nom">Nom:</label>
+                <input type="text" id="updateNom" name="nom" value="" required>
+                <br>
+                <label for="description">Description:</label>
+                <input type="text" id="updateDescription" name="description" value="" required>
+                <br>
+
+                <label for="dateEcheance">Date d'échéance:</label>
+                <input type="date" id="updateDateEcheance" name="dateEcheance" value="" required>
+                <br>
+
+                <label for="heureEcheance">Heure d'échéance:</label>
+                <input type="time" id="updateHeureEcheance" name="heureEcheance" value="" required>
+                <br>
+
+                <label for="couleur">Couleur:</label>
+                <input type="color" id="updateCouleur" name="couleur" value="#000000" required>
+                <br>
+
+                <button type="submit">Modifier</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         function openUserPopup() {
             document.getElementById('userOverlay').style.display = 'flex';
@@ -91,6 +140,35 @@
 
         function closeReminderPopup() {
             document.getElementById('reminderOverlay').style.display = 'none';
+        }
+
+        function openUpdateReminderPopup(nom, desc, date, time, couleur) {
+
+            var newdate = FormatDate(date);
+
+            document.getElementById('Update_old_reminder_name').value = nom;
+            document.getElementById('updateNom').value = nom;
+            document.getElementById('updateDescription').value = desc;
+            document.getElementById('updateDateEcheance').value = newdate;
+            document.getElementById('updateHeureEcheance').value = time;
+            document.getElementById('updateCouleur').value = couleur;
+
+            var updatePopup = document.getElementById('UpdatereminderOverlay');
+            if (updatePopup) {
+                document.getElementById('UpdatereminderOverlay').style.display = 'flex';
+            }
+            else {
+                console.log("UpdatePopupnontrouvé");
+            }
+        }
+
+        function closeUpdateReminderPopup() {
+            document.getElementById('UpdatereminderOverlay').style.display = 'none';
+        }
+
+        function FormatDate(dateString) {
+            const [day, month, year] = dateString.split("/");
+            return year + "-" + month + "-" + day;
         }
     </script>
 
