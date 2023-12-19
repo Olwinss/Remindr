@@ -1,29 +1,28 @@
-// Système de base 
+// Système de base --> Fait
 
 Page de création d'un compte : fait
 Création d'un dashboard : Fait
-
 Page de création d'un groupe --> Fait 
 Nom unique pour les groupes --> primary key donc fait
 Ajout d'utilisateurs dans un groupe par le owner  --> Fait
 
-// Système de rappel 
+// Système de rappel --> Fait
 
-Possibilité d'ajouter un rappel dans un groupe --> fait 
-Rappel : { nom:"", description:"", date_echeance:"", heure_echeance:"", couleur:""} --> fait
+Possibilité d'ajouter un rappel dans un groupe --> Fait 
+Rappel : { nom:"", description:"", date_echeance:"", heure_echeance:"", couleur:""} --> Fait
 Ordonner les rappels en fonctions des écheances --> Fait
 
-// Affichage dashboard
+// Affichage dashboard --> à moitié
 
-Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe 
+Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe --> 
 afficher la liste des groupes de l'utilisateur --> Fait
 
-// Page pour un groupe 
+// Page pour un groupe --> 3/4
 
-Modification et suppression des rappels par les utilisateurs qui l'ont crée 
+Modification et suppression des rappels par les utilisateurs qui l'ont crée --> En cours
 Affichage de ses rappels de manière antéchronologique --> Fait 
 Affichage des rappels avec couleur --> Fait
-Ajout d'une fonctionnalité pour voir les rappels dépassés --> mettre un style différent. --> Ez --> En cours
+Ajout d'une fonctionnalité pour voir les rappels dépassés --> mettre un style différent. --> Ez --> Fait
 
 Rédiger la documention 
 
