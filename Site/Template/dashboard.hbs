@@ -74,12 +74,11 @@
 
             <div class="widget">
                 <h3>Vos groupes</h3>
-                <ul id="groupList">
-                    <li name="Groupe1" data-action="/groupe/1">Groupe #1</li>
-                    <li name="Groupe2" data-action="/groupe/2">Groupe #2</li>
-                    <li name="Groupe3" data-action="/groupe/3">Groupe #3</li>
-                    <!-- lors de la création auto, il faudra mettre /groupe/lenom -->
-                </ul>
+                    <ul id="groupList">
+                        {{#each userGroups}}
+                            <li name="{{this}}" data-action="/groupe/{{this}}">{{this}}</li>
+                        {{/each}}
+                    </ul>
             </div>
 
             <button onclick="openPopup()">Créer un Groupe</button>
