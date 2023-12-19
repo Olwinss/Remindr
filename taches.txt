@@ -20,10 +20,10 @@ afficher la liste des groupes de l'utilisateur
 
 // Page pour un groupe 
 
-Modification et suppression des rappels par les utilisateurs qui l'on crée
+Modification et suppression des rappels par les utilisateurs qui l'ont crée 
 Affichage de ses rappels de manière antéchronologique --> Fait à moitié. Il faut faire la partie html css de la page et gérer la connexion à la base de donnée pour l'affichage.
 --> fait 
-Affichage des rappels avec couleur
+Affichage des rappels avec couleur --> Fait
 Ajout d'une fonctionnalité pour voir les rappels dépassés --> mettre un style différent. --> Ez 
 
 Rédiger la documention 
