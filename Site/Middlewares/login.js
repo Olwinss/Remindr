@@ -16,11 +16,9 @@ async function loginUser(req, res) {
             });
 
             if (logUser) {
-                // Comparaison du mot de passe haché avec le mot de passe fourni
                 const passwordMatch = await bcrypt.compare(log_pswd, logUser.password);
 
                 if (passwordMatch) {
-                    // Mot de passe correct, l'utilisateur est authentifié
                     return logUser;
                 } else {
                     throw new Error('Mot de passe incorrect');

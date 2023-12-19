@@ -10,7 +10,6 @@ async function RegisterUser(req, res) {
         const new_pswd = req.body.new_password;
 
         if (new_email && new_pswd && new_surname && new_firstname) {
-            // Hash du mot de passe
             const hashedPassword = await bcrypt.hash(new_pswd, 10);
 
             const utilisateur = await prisma.utilisateurs.create({
@@ -18,7 +17,7 @@ async function RegisterUser(req, res) {
                     email: new_email,
                     prenom: new_firstname,
                     nom: new_surname,
-                    password: hashedPassword, // Stockez le mot de passe hashé
+                    password: hashedPassword,
                 },
             });
 
