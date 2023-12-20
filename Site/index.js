@@ -6,9 +6,8 @@ const session = require('express-session');
 const handlebars = require('handlebars');
 const exphbs = require('express-handlebars').create({
     layoutsDir: resolve(__dirname, 'Template'), // Chemin des layouts à suivre
-    defaultLayout: false, // Définissez à false pour désactiver les mises en page
+    defaultLayout: false,
     extname: '.hbs',
-    /* autres options de configuration */
 });
 
 const { RegisterUser } = require('./Middlewares/register');
