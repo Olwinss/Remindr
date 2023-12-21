@@ -10,13 +10,11 @@ const exphbs = require('express-handlebars').create({
     extname: '.hbs',
 });
 
-
 const app = express();
 const prisma = new PrismaClient();
 const port = 3010;
 
 app.set('views', resolve(__dirname, 'Template'));
-
 app.engine('.hbs', exphbs.engine);
 app.set('view engine', '.hbs');
 
@@ -27,7 +25,7 @@ app.use(express.static('public'));
 // Sessions
 app.use(cookieParser());
 app.use(session({
-    secret: 'votre_secret_key',
+    secret: 'Remindr',
     resave: false,
     saveUninitialized: true,
 }));
