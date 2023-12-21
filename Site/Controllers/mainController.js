@@ -3,7 +3,7 @@ const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function getHomePage(req, res) {
-    res.sendFile(resolve(__dirname, "../Template/login.html"));
+    res.sendFile(resolve(__dirname, "../Templates/login.html"));
 };
 
 
@@ -12,12 +12,12 @@ async function getDashboard(req, res) {
         const { prenom, nom, email } = req.session.user;
 
         try {
-            // Obtenez les groupes de l'utilisateur depuis la base de données avec Prisma
+            // On obtient les groupes de l'utilisateur depuis la base de données avec Prisma
             const user = await prisma.utilisateurs.findUnique({
                 where: { email },
                 include: {
                     Groupes_rejoints: {
-                        select: { nom: true } // Sélectionnez uniquement le nom du groupe
+                        select: { nom: true } // On sélectionne uniquement le nom du groupe
                     }
                 }
             });

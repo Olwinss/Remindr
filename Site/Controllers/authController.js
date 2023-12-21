@@ -20,12 +20,12 @@ async function loginUserController(req, res) {
             } else if (error == 2) {
                 // dire que faut tt remplir
             }
-            res.sendFile(resolve(__dirname, "../Template/login.html"));
+            res.sendFile(resolve(__dirname, "../Templates/login.html"));
         });
 };
 
 function getLoginPage(req, res) {
-    res.sendFile(resolve(__dirname, "../Template/login.html"));
+    res.sendFile(resolve(__dirname, "../Templates/login.html"));
 }
 
 async function registerUserController(req, res) {
@@ -42,12 +42,12 @@ async function registerUserController(req, res) {
             } else if (error == 2) {
                 // dire que faut tt remplir
             }
-            res.sendFile(resolve(__dirname, "../Template/register.html"));
+            res.sendFile(resolve(__dirname, "../Templates/register.html"));
         });
 };
 
 function getRegisterPage(req, res) {
-    res.sendFile(resolve(__dirname, "../Template/register.html"));
+    res.sendFile(resolve(__dirname, "../Templates/register.html"));
 }
 
 function logoutUser(req, res) {

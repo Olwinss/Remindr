@@ -71,7 +71,7 @@ function getUpdateReminderJS (req, res){
 function deleteReminder (req,res) {
     const groupName = req.body.groupe;
     DeleteReminder(req, res)
-        .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
+        .then(() => res.redirect("/groupe/" + groupName)) // On renvoie sur la page du groupe actuel 
         .catch((error) => 
         {
             res.redirect("/groupe/" + groupName);

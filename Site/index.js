@@ -1,4 +1,4 @@
-// Importez vos routeurs
+//Importation des Routeurs
 const mainRouter = require('./Routers/mainRouter');
 const authRouter = require('./Routers/authRouter');
 const groupRouter = require('./Routers/groupRouter');
@@ -12,7 +12,7 @@ const cookieParser = require("cookie-parser");
 const session = require('express-session');
 const handlebars = require('handlebars');
 const exphbs = require('express-handlebars').create({
-    layoutsDir: resolve(__dirname, 'Template'), // Chemin des layouts à suivre
+    layoutsDir: resolve(__dirname, 'Templates'), // Chemin des layouts à suivre
     defaultLayout: false,
     extname: '.hbs',
 });
@@ -21,12 +21,11 @@ const app = express();
 const prisma = new PrismaClient();
 const port = 3010;
 
-app.set('views', resolve(__dirname, 'Template'));
+app.set('views', resolve(__dirname, 'Templates'));
 app.engine('.hbs', exphbs.engine);
 app.set('view engine', '.hbs');
 
 // Styles 
-
 app.use(express.static('public'));
 
 // Sessions
@@ -39,14 +38,13 @@ app.use(session({
 
 app.use(urlencoded({ extended: false }));
 
-// Utilisez vos routeurs
+// Utilisation des routeurs
 app.use(mainRouter);
 app.use(authRouter);
 app.use(groupRouter);
 app.use(reminderRouter);
 
 // handlebars Helpers 
-
 handlebars.registerHelper('isCreator', function (reminderCreatorEmail, user_email) 
 {
     return user_email == reminderCreatorEmail;

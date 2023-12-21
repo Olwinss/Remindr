@@ -149,7 +149,7 @@ button:hover {
 }
 
 #groupList {
-    max-height: 300px; /* Choisissez une valeur appropriée */
+    max-height: 300px;
     overflow-y: auto;
-    overflow-x: hidden; /* Ajout d'overflow-x pour masquer la barre de défilement horizontale si nécessaire */
+    overflow-x: hidden;
 }

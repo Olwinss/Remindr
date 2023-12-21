@@ -92,12 +92,12 @@ function getAddUserInGroupJS(req, res) {
 }
 
 function createGroup (req, res) {
-    // Vérifiez si l'utilisateur est connecté en vérifiant la session
+    // Vérification si l'utilisateur est connecté en vérifiant la session
     if (req.session.user) {
         const { prenom, nom, email } = req.session.user;
         CreateGroup(req, res)
             .then(() => {
-                // Après la création réussie, rechargez simplement la page
+                // Après la création réussie, rechargement simple de la page
                 res.redirect("/dashboard");
             })
             .catch((error) => {
@@ -108,7 +108,7 @@ function createGroup (req, res) {
                 }
             });
     } else {
-        // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
+        // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
         res.redirect("login.html");
     }
 };

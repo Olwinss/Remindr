@@ -148,9 +148,9 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     text-align: center;
     position: relative;
-    width: 60%; /* Ajustez cette valeur en pourcentage ou en pixels selon vos besoins */
-    max-width: 600px; /* Ajoutez une valeur max si nécessaire */
-    margin: auto; /* Pour centrer le popup horizontalement */
+    width: 60%;
+    max-width: 600px;
+    margin: auto;
 }
 
 
