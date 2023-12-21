@@ -52,6 +52,17 @@
         #groupList li:hover {
             background-color: #ccc;
         }
+
+        #RemindersList li {
+            list-style-type: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #RemindersList li:hover {
+            background-color: #ccc;
+        }
     </style>
 </head>
 
@@ -67,18 +78,22 @@
 
         <div class="dashboard-content">
             <div class="widget">
-                <h3>Statistiques</h3>
-                <p>Nombre total d'utilisateurs: $nb_users</p>
-                <p>Votre nombre de groupe rejoint : $nb_groups</p>
+                <h3>Rappels à venir</h3>
+                <ul id="RemindersList">
+                    {{#each allreminders}}
+                    <li name="{{nom_rappel}}" data-action="/groupe/{{nom_groupe}}">{{nom_rappel}}</li>
+                    {{/each}}
+                </ul>
+
             </div>
 
             <div class="widget">
                 <h3>Vos groupes</h3>
-                    <ul id="groupList">
-                        {{#each userGroups}}
-                            <li name="{{this}}" data-action="/groupe/{{this}}">{{this}}</li>
-                        {{/each}}
-                    </ul>
+                <ul id="groupList">
+                    {{#each userGroups}}
+                    <li name="{{this}}" data-action="/groupe/{{this}}">{{this}}</li>
+                    {{/each}}
+                </ul>
             </div>
 
             <button onclick="openPopup()">Créer un Groupe</button>
@@ -112,7 +127,7 @@
         }
 
         // Récupérez la liste des éléments li
-        var groupItems = document.querySelectorAll('#groupList li');      
+        var groupItems = document.querySelectorAll('#groupList li');
 
         // Attachez un gestionnaire d'événements de clic à chaque élément li
         groupItems.forEach(function (item) {

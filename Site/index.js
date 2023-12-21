@@ -62,16 +62,47 @@ app.get("/dashboard", async (req, res) => {
                     }
                 }
             });
-            
+
             if (!user) {
                 console.error("Utilisateur non trouvé :", email);
                 res.status(404).send('Utilisateur non trouvé');
                 return;
             }
 
+            const currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0); // Set the time to the beginning of the current day
+
+            const allReminders = await prisma.utilisateurs.findMany({
+                where: { email },
+                include: {
+                    Groupes_rejoints: {
+                        select: {
+                            Rappel: {
+                                where: {
+                                    AND: [
+                                        {
+                                            date: {
+                                                gt: currentDate // Rappels avec date supérieure à l'heure actuelle
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
             const userGroups = user.Groupes_rejoints.map(group => group.nom);
 
-            res.render('dashboard', { prenom, nom, email, userGroups });
+            const Formated_reminders = allReminders[0].Groupes_rejoints.flatMap(group => group.Rappel);
+            Formated_reminders.sort((a, b) => {
+                const dateA = new Date(`${a.date} ${a.time}`);
+                const dateB = new Date(`${b.date} ${b.time}`);
+                return dateA - dateB;
+            });
+            console.log(Formated_reminders);
+            res.render('dashboard', { prenom, nom, email, userGroups, allreminders: Formated_reminders });
         } catch (error) {
             console.error("Erreur lors de la récupération des groupes de l'utilisateur :", error);
             res.status(500).send('Erreur serveur');
@@ -83,6 +114,7 @@ app.get("/dashboard", async (req, res) => {
 
 
 
+
 // Login
 app.post("/login", bodyParserMiddleware, (req, res) => {
     loginUser(req, res)
@@ -90,6 +122,8 @@ app.post("/login", bodyParserMiddleware, (req, res) => {
             // On stocke les infos de l'utilisateur connecté
             req.session.user = user;
             res.redirect("/dashboard");
+
+
         })
         .catch((error) => {
             console.log(error);
@@ -193,27 +227,27 @@ app.get('/groupe/:groupName', async (req, res) => {
         }
 
         // L'utilisateur appartient au groupe, continuez avec la logique existante pour récupérer les rappels, etc.
-        const reminders = await prisma.rappels.findMany({
+        const Formated_reminders = await prisma.rappels.findMany({
             where: { nom_groupe: groupName },
             orderBy: [
-              {
-                date: 'asc',
-              },
-              {
-                time: 'asc',
-              },
+                {
+                    date: 'asc',
+                },
+                {
+                    time: 'asc',
+                },
             ],
         });
 
-        const Formated_rmdr = formaterRappels(reminders,req.session.user.email);
-        res.render('groupe', { groupName, reminders: Formated_rmdr});
+        const Formated_rmdr = formaterRappels(Formated_reminders, req.session.user.email);
+        res.render('groupe', { groupName, reminders: Formated_rmdr });
     } catch (error) {
         console.error('Erreur lors de la récupération des rappels :', error);
         res.status(500).send('Erreur serveur');
     }
 });
 
-function formaterRappels(rappels,user_email) {
+function formaterRappels(rappels, user_email) {
     const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const optionsTime = { hour: '2-digit', minute: '2-digit' };
 
@@ -277,13 +311,11 @@ app.get("/ajouterrappel.js", (req, res) => {
 
 
 
-app.post("/updatereminder",bodyParserMiddleware,(req,res) => {
+app.post("/updatereminder", bodyParserMiddleware, (req, res) => {
     const groupName = req.body.groupe;
-    
     UpdateReminder(req, res)
         .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
-        .catch((error) => 
-        {
+        .catch((error) => {
             res.redirect("/groupe/" + groupName);
             if (error == 1) {
                 // dire que nom de groupe déjà utilisé 
@@ -300,12 +332,11 @@ app.get("/updatereminder.js", (req, res) => {
 
 // 
 
-app.post("/deletereminder",bodyParserMiddleware,(req,res) => {
+app.post("/deletereminder", bodyParserMiddleware, (req, res) => {
     const groupName = req.body.groupe;
     DeleteReminder(req, res)
         .then(() => res.redirect("/groupe/" + groupName)) // renvoyer sur la page du groupe actuel 
-        .catch((error) => 
-        {
+        .catch((error) => {
             res.redirect("/groupe/" + groupName);
             if (error == 1) {
                 // dire que nom de groupe déjà utilisé 
@@ -322,35 +353,35 @@ app.get("/deletereminder.js", (req, res) => {
 
 // handlebars Helpers 
 
-handlebars.registerHelper('isCreator', function (reminderCreatorEmail, user_email) 
-{
+handlebars.registerHelper('isCreator', function (reminderCreatorEmail, user_email) {
     return user_email == reminderCreatorEmail;
 });
 
-handlebars.registerHelper('GetStyle', function(dateEcheance, heureEcheance, couleur) 
-{
+handlebars.registerHelper('GetStyle', function (dateEcheance, heureEcheance, couleur) {
     // Récupération de la date actuelle
     var currentDate = new Date();
 
     // Parsing des valeurs de date et d'heure
     const [day, month, year] = dateEcheance.split("/");
     const [hours, minutes] = heureEcheance.split(":");
-    
+
     // Création de l'objet dateTime
-    const dateTime = new Date(`${year}-${month}-${day}T${hours}:${minutes}:00`);
+    const dateTime = new Date(`${year}-${month}-${day}T${hours-1}:${minutes}:00`);
 
     if (currentDate > dateTime) {
         // Date dépassée
         return "background-color: " + couleur + "; border: 4px solid #000000; font-weight: bold; border-style: dotted; color: " + (isColorDark(couleur) ? "white" : "black") + ";";
-    } else {
+    } 
+    else {
         // Calcul de la différence de temps en heures
         var timeDifference = dateTime - currentDate;
         var hoursDifference = timeDifference / (1000 * 60 * 60);
-
-        if (hoursDifference - 1 <= 24) { 
+        
+        if ((hoursDifference - 1) <= 24) {
             // Date à venir dans les prochaines 24 heures
             return "background-color: " + couleur + "; border: 4px solid #000000; font-style: italic; border-style: dotted dashed solid double; color: " + (isColorDark(couleur) ? "white" : "black") + ";";
-        } else {
+        } 
+        else {
             // Date à venir dans plus de 24 heures
             return "background-color: " + couleur + "; border: 4px solid #000000; border-style: solid; color: " + (isColorDark(couleur) ? "white" : "black") + ";";
         }
@@ -361,13 +392,13 @@ handlebars.registerHelper('GetStyle', function(dateEcheance, heureEcheance, coul
 function isColorDark(color) {
     // Vous pouvez utiliser une logique plus avancée ici pour déterminer si la couleur est foncée ou claire
     // Cette implémentation simple suppose que la couleur est foncée si la luminosité moyenne est inférieure à 128
-    const rgb = parseInt(color.slice(1), 16); 
+    const rgb = parseInt(color.slice(1), 16);
     const r = (rgb >> 16) & 0xff;
-    const g = (rgb >>  8) & 0xff;
-    const b = (rgb >>  0) & 0xff;
+    const g = (rgb >> 8) & 0xff;
+    const b = (rgb >> 0) & 0xff;
 
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-    
+
     return brightness < 128;
 }
 
