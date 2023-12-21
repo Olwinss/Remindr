@@ -101,7 +101,6 @@ app.get("/dashboard", async (req, res) => {
                 const dateB = new Date(`${b.date} ${b.time}`);
                 return dateA - dateB;
             });
-            console.log(Formated_reminders);
             res.render('dashboard', { prenom, nom, email, userGroups, allreminders: Formated_reminders });
         } catch (error) {
             console.error("Erreur lors de la récupération des groupes de l'utilisateur :", error);
