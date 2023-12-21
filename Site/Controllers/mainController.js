@@ -3,7 +3,7 @@ const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function getHomePage(req, res) {
-    res.sendFile(resolve(__dirname, "Template/login.html"));
+    res.sendFile(resolve(__dirname, "../Template/login.html"));
 };
 
 
@@ -36,7 +36,7 @@ async function getDashboard(req, res) {
             res.status(500).send('Erreur serveur');
         }
     } else {
-        res.redirect("/login.html");
+        res.redirect("../Template/login.html");
     }
 };
 

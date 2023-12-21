@@ -1,7 +1,26 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-const { formaterRappels } = require('../Utils/formatRappels');
 const { resolve } = require('path');
+
+const { CreateGroup } = require('../Middlewares/creategroupe');
+const { AddUserInGroup } = require('../Middlewares/adduseringroup');
+
+function formaterRappels(rappels,user_email) {
+    const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    const optionsTime = { hour: '2-digit', minute: '2-digit' };
+
+    return rappels.map(rappel => {
+        const date = new Date(rappel.date).toLocaleDateString('fr-FR', optionsDate);
+        const time = new Date(rappel.time).toLocaleTimeString('fr-FR', optionsTime);
+
+        return {
+            ...rappel,
+            date: date,
+            time: time,
+            user_email: user_email,
+        };
+    });
+}
 
 async function getGroupPage(req, res) {
     try {
@@ -36,13 +55,14 @@ async function getGroupPage(req, res) {
             ],
         });
 
-        const Formated_rmdr = formaterRappels(reminders, req.session.user.email);
-        res.render('groupe', { groupName, reminders: Formated_rmdr });
+        const Formated_rmdr = formaterRappels(reminders,req.session.user.email);
+        res.render('groupe', { groupName, reminders: Formated_rmdr});
     } catch (error) {
         console.error('Erreur lors de la récupération des rappels :', error);
         res.status(500).send('Erreur serveur');
     }
-}
+};
+
 
 async function addUserInGroup(req, res) {
     const groupName = req.body.groupe;
@@ -89,7 +109,7 @@ function createGroup (req, res) {
             });
     } else {
         // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
-        res.redirect("/login.html");
+        res.redirect("../Template/login.html");
     }
 };
 

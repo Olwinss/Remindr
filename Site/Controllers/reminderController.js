@@ -1,3 +1,11 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+const { resolve } = require('path');
+
+const { AddReminderInGroup } = require('../Middlewares/addremideringroupe.js');
+const { UpdateReminder } = require('../Middlewares/updatereminder.js');
+const { DeleteReminder } = require('../Middlewares/deletereminder.js');
+
 function formaterRappels(rappels,user_email) {
     const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
     const optionsTime = { hour: '2-digit', minute: '2-digit' };
@@ -32,7 +40,7 @@ function addReminder (req, res) { // Ajout d'un user
 };
 
 function getAddReminderJS (req, res) {
-    res.sendFile(resolve(__dirname, "ajouterrappel.js"));
+    res.sendFile(resolve(__dirname, "../Middlewares/ajouterrappel.js"));
 };
 
 
@@ -55,7 +63,7 @@ function updateReminder (req,res) {
 };
 
 function getUpdateReminderJS (req, res){
-    res.sendFile(resolve(__dirname, "updatereminder.js"));
+    res.sendFile(resolve(__dirname, "../Middlewares/updatereminder.js"));
 };
 
 // 
@@ -77,7 +85,7 @@ function deleteReminder (req,res) {
 };
 
 function getDeleteReminderJS (req, res) {
-    res.sendFile(resolve(__dirname, "deletereminder.js"));
+    res.sendFile(resolve(__dirname, "../Middlewares/deletereminder.js"));
 };
 
 module.exports = {

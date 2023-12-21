@@ -10,14 +10,6 @@ const exphbs = require('express-handlebars').create({
     extname: '.hbs',
 });
 
-const { RegisterUser } = require('./Middlewares/register');
-const { loginUser } = require('./Middlewares/login');
-const { CreateGroup } = require('./Middlewares/creategroupe');
-const { AddUserInGroup } = require('./Middlewares/adduseringroup');
-const { AddReminderInGroup } = require('./Middlewares/addremideringroupe.js');
-const { bodyParserMiddleware } = require('./Middlewares/bodyparser');
-const { UpdateReminder } = require('./Middlewares/updatereminder.js');
-const { DeleteReminder } = require('./Middlewares/deletereminder.js');
 
 const app = express();
 const prisma = new PrismaClient();
@@ -90,6 +82,18 @@ function isColorDark(color) {
     
     return brightness < 128;
 }
+
+// Importez vos routeurs
+const mainRouter = require('./Routers/mainRouter');
+const authRouter = require('./Routers/authRouter');
+const groupRouter = require('./Routers/groupRouter');
+const reminderRouter = require('./Routers/reminderRouter');
+
+// Utilisez vos routeurs
+app.use('/', mainRouter);
+app.use('/login', authRouter);
+app.use('/group', groupRouter);
+app.use('/reminder', reminderRouter);
 
 // Listening port 
 

@@ -1,12 +1,14 @@
 const express = require('express');
-const router = express.Router();
+const authRouter = express.Router();
 const authController = require('../Controllers/authController');
+const { bodyParserMiddleware } = require('../Middlewares/bodyparser');
+
 
 // Routes d'authentification
-router.post('/login', authController.loginUser);
-router.get('/login.html', authController.getLoginPage);
-router.post('/register', bodyParserMiddleware, authController.registerUser);
-router.get('/register.html', authController.getRegisterPage);
-router.get('/logout', authController.logoutUser);
+authRouter.post('/login', bodyParserMiddleware, authController.loginUserController);
+authRouter.get('/login.html', authController.getLoginPage);
+authRouter.post('/register', bodyParserMiddleware, authController.registerUserController);
+authRouter.get('/register.html', authController.getRegisterPage);
+authRouter.get('/logout', authController.logoutUser);
 
-module.exports = router;
+module.exports = authRouter;

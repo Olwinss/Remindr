@@ -2,46 +2,52 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const { resolve } = require('path');
 const prisma = new PrismaClient();
-const { loginUser, registerUser: RegisterUser } = require('../Services/authService'); // Assurez-vous d'importer le bon service
+
+const { RegisterUser } = require('../Middlewares/register');
+const { loginUser } = require('../Middlewares/login');
 
 async function loginUserController(req, res) {
-    try {
-        const user = await loginUser(req.body.email, req.body.password);
-        req.session.user = user;
-        res.redirect("/dashboard");
-    } catch (error) {
-        console.error(error);
-        if (error === 1) {
-            // Dire que le mot de passe ou l'email est incorrect
-        } else if (error === 2) {
-            // Dire que tous les champs doivent être remplis
-        }
-        res.sendFile(resolve(__dirname, "Template/login.html"));
-    }
-}
+    loginUser(req, res)
+        .then((user) => {
+            // On stocke les infos de l'utilisateur connecté
+            req.session.user = user;
+            res.redirect("/dashboard");
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error == 1) {
+                // dire que mdp ou email incorrect
+            } else if (error == 2) {
+                // dire que faut tt remplir
+            }
+            res.sendFile(resolve(__dirname, "../Template/login.html"));
+        });
+};
 
 function getLoginPage(req, res) {
-    res.sendFile(resolve(__dirname, "Template/login.html"));
+    res.sendFile(resolve(__dirname, "../Template/login.html"));
 }
 
 async function registerUserController(req, res) {
-    try {
-        const user = await RegisterUser(req.body.new_email, req.body.new_password);
-        req.session.user = user;
-        res.redirect("/dashboard");
-    } catch (error) {
-        console.error(error);
-        if (error === 1) {
-            // Dire que l'email est déjà utilisé
-        } else if (error === 2) {
-            // Dire que tous les champs doivent être remplis
-        }
-        res.sendFile(resolve(__dirname, "Template/register.html"));
-    }
-}
+    RegisterUser(req, res)
+        .then((user) => {
+            // On stocke les infos de l'utilisateur connecté
+            req.session.user = user;
+            res.redirect("/dashboard");
+        })
+        .catch((error) => {
+            console.log(error);
+            if (error == 1) {
+                // dire que email déjà utilisé
+            } else if (error == 2) {
+                // dire que faut tt remplir
+            }
+            res.sendFile(resolve(__dirname, "../Template/register.html"));
+        });
+};
 
 function getRegisterPage(req, res) {
-    res.sendFile(resolve(__dirname, "Template/register.html"));
+    res.sendFile(resolve(__dirname, "../Template/register.html"));
 }
 
 function logoutUser(req, res) {
@@ -49,7 +55,7 @@ function logoutUser(req, res) {
         if (err) {
             console.error("Erreur lors de la déconnexion :", err);
         } else {
-            res.redirect("/login.html");
+            res.redirect("../Template/login.html");
         }
     });
 }

@@ -1,12 +1,12 @@
 const express = require('express');
-const router = express.Router();
+const groupRouter = express.Router();
 const groupController = require('../Controllers/groupController');
 const { bodyParserMiddleware } = require('../Middlewares/bodyparser');
 
 // Routes pour les groupes
-router.get('/groupe/:groupName', groupController.getGroupPage);
-router.post('/adduseringroupe', bodyParserMiddleware, groupController.addUserInGroup);
-router.get('/adduseringroupe.js', groupController.getAddUserInGroupJS);
-router.post('/creategroupe', bodyParserMiddleware, groupController.createGroup);
+groupRouter.get('/groupe/:groupName', groupController.getGroupPage);
+groupRouter.post('/adduseringroupe', bodyParserMiddleware, groupController.addUserInGroup);
+groupRouter.get('/adduseringroupe.js', groupController.getAddUserInGroupJS);
+groupRouter.post('/creategroupe', bodyParserMiddleware, groupController.createGroup);
 
-module.exports = router;
+module.exports = groupRouter;

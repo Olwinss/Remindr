@@ -1,9 +1,9 @@
 const express = require ('express');
-const router = express.Router();
+const mainRouter = express.Router();
 const mainController = require("../Controllers/mainController")
 
-router.get("/", mainController.getHomePage);
+mainRouter.get("/", mainController.getHomePage);
 
-router.get("/dashboard", mainController.getDashboard);
+mainRouter.get("/dashboard", mainController.getDashboard);
 
-module.exports = rooter;
+module.exports = mainRouter;
