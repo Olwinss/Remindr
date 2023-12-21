@@ -109,7 +109,7 @@ function createGroup (req, res) {
             });
     } else {
         // Redirigez vers la page de connexion si l'utilisateur n'est pas connecté
-        res.redirect("../Template/login.html");
+        res.redirect("login.html");
     }
 };
 

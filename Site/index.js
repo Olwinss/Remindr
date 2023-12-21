@@ -1,4 +1,11 @@
+// Importez vos routeurs
+const mainRouter = require('./Routers/mainRouter');
+const authRouter = require('./Routers/authRouter');
+const groupRouter = require('./Routers/groupRouter');
+const reminderRouter = require('./Routers/reminderRouter');
+
 const express = require('express');
+const { urlencoded } = require('express');
 const { resolve } = require('path');
 const { PrismaClient } = require('@prisma/client')
 const cookieParser = require("cookie-parser");
@@ -29,6 +36,14 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
 }));
+
+app.use(urlencoded({ extended: false }));
+
+// Utilisez vos routeurs
+app.use(mainRouter);
+app.use(authRouter);
+app.use(groupRouter);
+app.use(reminderRouter);
 
 // handlebars Helpers 
 
@@ -80,18 +95,6 @@ function isColorDark(color) {
     
     return brightness < 128;
 }
-
-// Importez vos routeurs
-const mainRouter = require('./Routers/mainRouter');
-const authRouter = require('./Routers/authRouter');
-const groupRouter = require('./Routers/groupRouter');
-const reminderRouter = require('./Routers/reminderRouter');
-
-// Utilisez vos routeurs
-app.use('/', mainRouter);
-app.use('/login', authRouter);
-app.use('/group', groupRouter);
-app.use('/reminder', reminderRouter);
 
 // Listening port 
 

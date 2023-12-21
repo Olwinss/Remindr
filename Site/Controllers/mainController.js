@@ -36,7 +36,7 @@ async function getDashboard(req, res) {
             res.status(500).send('Erreur serveur');
         }
     } else {
-        res.redirect("../Template/login.html");
+        res.redirect("login.html");
     }
 };
 

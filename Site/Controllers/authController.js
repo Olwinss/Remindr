@@ -55,7 +55,7 @@ function logoutUser(req, res) {
         if (err) {
             console.error("Erreur lors de la déconnexion :", err);
         } else {
-            res.redirect("../Template/login.html");
+            res.redirect("/login.html");
         }
     });
 }
