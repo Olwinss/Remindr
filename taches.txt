@@ -14,7 +14,7 @@ Ordonner les rappels en fonctions des écheances --> Fait
 
 // Affichage dashboard --> à moitié
 
-Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe --> 
+Permettre de voir rappels qui arrive à écheance rapidement peut importe le groupe --> en cours olivier
 afficher la liste des groupes de l'utilisateur --> Fait
 
 // Page pour un groupe --> Fini
