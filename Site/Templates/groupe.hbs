@@ -21,14 +21,14 @@
     <h2>Rappels</h2>
 
     <section id="reminders">
-        {{#reminders}}
-        <div class="reminder-card" style="{{GetStyle date time couleur}}">
+        {{#reminders}} <!-- affichage de chaque reminder de manière stylisée --> 
+        <div class="reminder-card" style="{{GetStyle date time couleur}}"> <!-- appelle du helper getstyle pour récupérer le style de la carte (selon si l'échéance est dépassé, proche ou éloignée --> 
             <div class="reminder-title">{{nom_rappel}}</div>
             <div class="reminder-description">{{description}}</div>
             <div class="reminder-date">Date: {{date}}</div>
             <div class="reminder-time">Heure: {{time}}</div>
 
-            {{#if (isCreator email_createur user_email)}}
+            {{#if (isCreator email_createur user_email)}} <!-- Appel du helper isCreator pour vérifier si l'utilisateur est le créateur du rappel. Si oui, il peut le supp et le modif --> 
              <button style="margin-top: 20px;"
                     onclick="openUpdateReminderPopup('{{nom_rappel}}','{{description}}','{{date}}','{{time}}','{{couleur}}')">Modifier</button>
             <div class="Managment_buttons">
@@ -42,8 +42,10 @@
             {{/if}}
 
         </div>
-        {{/reminders}}
+        {{/reminders}} <!-- fin d'affichage de la partie reminder --> 
     </section>
+
+    <!-- Pop-up ajout d'un user --> 
 
     <div class="overlay" id="userOverlay">
         <div class="popup">
@@ -58,6 +60,8 @@
             </form>
         </div>
     </div>
+
+    <!-- Pop-up ajout d'un rappel --> 
 
     <div class="overlay" id="reminderOverlay">
 
@@ -91,6 +95,9 @@
             </form>
         </div>
     </div>
+
+    <!-- Pop-up modif d'un rappel --> 
+
 
     <div class="overlay" id="UpdatereminderOverlay">
         <div class="popup">
@@ -126,6 +133,8 @@
     </div>
 
     <script>
+
+        // Debut : fonction pour ouvrir/fermer les pop-up
         function openUserPopup() {
             document.getElementById('userOverlay').style.display = 'flex';
         }
@@ -142,10 +151,15 @@
             document.getElementById('reminderOverlay').style.display = 'none';
         }
 
+        // Fin : fonction pour ouvrir/fermer les pop-up
+
+
+        // ouvre le pop-up pour update un reminder
         function openUpdateReminderPopup(nom, desc, date, time, couleur) {
 
-            var newdate = FormatDate(date);
+            var newdate = FormatDate(date); 
 
+            // on affiche les précédente valeur
             document.getElementById('Update_old_reminder_name').value = nom;
             document.getElementById('updateNom').value = nom;
             document.getElementById('updateDescription').value = desc;
@@ -153,12 +167,13 @@
             document.getElementById('updateHeureEcheance').value = time;
             document.getElementById('updateCouleur').value = couleur;
 
+            // on récupère le pop-up et on l'affiche
             var updatePopup = document.getElementById('UpdatereminderOverlay');
             if (updatePopup) {
-                document.getElementById('UpdatereminderOverlay').style.display = 'flex';
+                updatePopup.style.display = 'flex';
             }
             else {
-                console.log("UpdatePopupnontrouvé");
+                console.log("Update Popup non trouvé");
             }
         }
 
@@ -166,10 +181,13 @@
             document.getElementById('UpdatereminderOverlay').style.display = 'none';
         }
 
+        // met la date au bon format pour l'input
+        
         function FormatDate(dateString) {
             const [day, month, year] = dateString.split("/");
             return year + "-" + month + "-" + day;
         }
+
     </script>
 
 </body>
