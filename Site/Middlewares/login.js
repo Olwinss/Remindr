@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const prisma = new PrismaClient();
 
+// Connexion de l'utilisateur
 async function loginUser(req, res) {
     try {
         const log_email = req.body.email;
@@ -14,7 +15,7 @@ async function loginUser(req, res) {
                     email: log_email,
                 },
             });
-
+            // Vérification de la concordance du mot de passe donné
             if (logUser) {
                 const passwordMatch = await bcrypt.compare(log_pswd, logUser.password);
 

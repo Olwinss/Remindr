@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css">
-    <title>Dashboard - {{prenom}} {{nom}}</title>
+    <title>Dashboard - {{prenom}} {{nom}}</title><!--Affichage du titre de la page au nom de l'utilisateur connecté-->
 </head>
 
 <body>
@@ -13,7 +13,7 @@
     <div class="dashboard-container">
         <h2>Tableau de bord</h2>
 
-        <div class="user-info">
+        <div class="user-info"><!--Affichage du nom, prénom et de l'adresse mail de l'utilisateur pour qu'il sache qu'il est bel et bien connecté sous le compte voulu-->
             <p>Bienvenue, {{prenom}} {{nom}} !</p>
             <p>Email: {{email}}</p>
         </div>
@@ -21,7 +21,7 @@
         <div class="dashboard-content">
             <div class="widget">
                 <h3>Rappels à venir</h3>
-                <ul id="RemindersList">
+                <ul id="RemindersList"><!--Affichage des rappels arrivant à échéance prochainement-->
                     {{#each allreminders}}
                     <li name="{{nom_rappel}}" data-action="/groupe/{{nom_groupe}}">{{nom_rappel}}</li>
                     {{/each}}
@@ -31,14 +31,14 @@
 
             <div class="widget">
                 <h3>Vos groupes</h3>
-                <ul id="groupList">
+                <ul id="groupList"><!--Affichage de la liste des rappels (ascenseur si il y en a trop)-->
                     {{#each userGroups}}
                     <li name="{{this}}" data-action="/groupe/{{this}}">{{this}}</li>
                     {{/each}}
                 </ul>
             </div>
 
-            <button onclick="openPopup()">Créer un Groupe</button>
+            <button onclick="openPopup()">Créer un Groupe</button><!--Popup s'ouvrant pour créer le groupe et entrer son nom-->
 
             <div class="overlay" id="overlay">
                 <div class="popup">
@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        <div class="logout-link">
+        <div class="logout-link"><!--Lien pour se déconnecter et revenir sur la page de d'authentification-->
             <p><a href="/logout">Se déconnecter</a></p>
         </div>
     </div>
@@ -68,16 +68,16 @@
             document.getElementById('overlay').style.display = 'none';
         }
 
-        // Récupérez la liste des éléments li
+        // récupération de la liste des éléments li
         var groupItems = document.querySelectorAll('#groupList li');
 
-        // Attachez un gestionnaire d'événements de clic à chaque élément li
+        // Gestionnaire d'événements de clic à chaque élément li
         groupItems.forEach(function (item) {
             item.addEventListener('click', function () {
-                // Récupérez l'URL d'action à partir de l'attribut data-action
+                // Récupération de l'URL d'action à partir de l'attribut data-action
                 var actionUrl = item.getAttribute('data-action');
 
-                // Effectuez l'action souhaitée, par exemple, redirigez vers l'URL
+                // Action souhaitée de redirection de l'URL
                 window.location.href = actionUrl;
             });
         });
