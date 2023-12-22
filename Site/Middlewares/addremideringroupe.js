@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// 
 async function AddReminderInGroup(req, res) {
     return new Promise(async (resolve, reject) => {
         const group_name = req.body.groupe;
