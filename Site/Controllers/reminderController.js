@@ -6,24 +6,6 @@ const { AddReminderInGroup } = require('../Middlewares/addremideringroupe.js');
 const { UpdateReminder } = require('../Middlewares/updatereminder.js');
 const { DeleteReminder } = require('../Middlewares/deletereminder.js');
 
-function formaterRappels(rappels,user_email) {
-    const optionsDate = { day: '2-digit', month: '2-digit', year: 'numeric' };
-    const optionsTime = { hour: '2-digit', minute: '2-digit' };
-
-    return rappels.map(rappel => {
-        const date = new Date(rappel.date).toLocaleDateString('fr-FR', optionsDate);
-        const time = new Date(rappel.time).toLocaleTimeString('fr-FR', optionsTime);
-
-        return {
-            ...rappel,
-            date: date,
-            time: time,
-            user_email: user_email,
-        };
-    });
-}
-
-
 // Rappels 
 function addReminder (req, res) { // Ajout d'un user
     const groupName = req.body.groupe;
@@ -39,12 +21,13 @@ function addReminder (req, res) { // Ajout d'un user
         })
 };
 
+// renvoi le reminder.js
 function getAddReminderJS (req, res) {
     res.sendFile(resolve(__dirname, "../Middlewares/ajouterrappel.js"));
 };
 
 
-
+// met à jour le rappe l souhaité 
 function updateReminder (req,res) {
     const groupName = req.body.groupe;
     
@@ -89,7 +72,6 @@ function getDeleteReminderJS (req, res) {
 };
 
 module.exports = {
-    formaterRappels,
     addReminder,
     getAddReminderJS,
     updateReminder,
