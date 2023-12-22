@@ -36,6 +36,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
+// BodyParser
 app.use(urlencoded({ extended: false }));
 
 // Utilisation des routeurs
@@ -45,11 +46,14 @@ app.use(groupRouter);
 app.use(reminderRouter);
 
 // handlebars Helpers 
+
+// Helper retournant si l'utilisateur est le créateur du rappel 
 handlebars.registerHelper('isCreator', function (reminderCreatorEmail, user_email) 
 {
     return user_email == reminderCreatorEmail;
 });
 
+// création d'un helper pour le hbs afin d'avoir un affichage selon la date d'écheance 
 handlebars.registerHelper('GetStyle', function(dateEcheance, heureEcheance, couleur) 
 {
     // Récupération de la date actuelle
@@ -95,7 +99,6 @@ function isColorDark(color) {
 }
 
 // Listening port 
-
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });

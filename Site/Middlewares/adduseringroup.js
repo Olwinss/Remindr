@@ -1,19 +1,22 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// ajout du user dans un groupe 
 async function AddUserInGroup(req, res) {
     return new Promise(async (resolve, reject) => {
+
+        // récupère les données du formulaire
         const email = req.body.new_user_email;
         const groupId = req.body.groupe;
 
-        if (!email || !groupId) {
+        if (!email || !groupId) { 
             console.error('Email ou groupe non valide'); // 'Email ou groupe non valide'
             reject(3);
             return;
         }
 
         try {
-            const group = await prisma.groupe.findUnique({
+            const group = await prisma.groupe.findUnique({ // cherche le groupe 
                 where: { nom: groupId },
                 include: { Membres: true },
             });
@@ -32,7 +35,7 @@ async function AddUserInGroup(req, res) {
                 return;
             }
 
-            const user = await prisma.utilisateurs.findUnique({
+            const user = await prisma.utilisateurs.findUnique({ // on récupère le user pour le tester 
                 where: { email: email },
             });
 
@@ -64,4 +67,6 @@ async function AddUserInGroup(req, res) {
     });
 }
 
+
+// export la fonction 
 module.exports = { AddUserInGroup };

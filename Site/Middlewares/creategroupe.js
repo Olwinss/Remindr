@@ -1,21 +1,22 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+// permet de créer un groupe 
 function CreateGroup(req, res) {
     return new Promise(async (resolve, reject) => {
         const name = req.body.groupename;
         const { email } = req.session.user; // On récupère l'email du createur
         const creator = email;
 
-        if (name) {
-            const groupe = {
+        if (name) { // si il y a bien un nom de groupe donné
+            const groupe = { // on crée l'objet groupe
                 nom: name,
                 email_createur: creator,
             };
 
             try {
                 // Créer le groupe
-                const createUser = await prisma.groupe.create({ data: groupe });
+                const createUser = await prisma.groupe.create({ data: groupe }); 
                 console.log('Groupe créé avec succès');
 
                 resolve(createUser);
@@ -26,7 +27,7 @@ function CreateGroup(req, res) {
             }
 
             try {
-                // Ajouter l'utilisateur à la table _Joined
+                // Ajouter l'utilisateur à la table _Joined afin qu'il soit membre de ce groupe
                 await prisma.groupe.update({
                     where: { nom: groupe.nom},
                     data: {
@@ -48,4 +49,5 @@ function CreateGroup(req, res) {
     });
 }
 
+// export de la fonction 
 module.exports = { CreateGroup };

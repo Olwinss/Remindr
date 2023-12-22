@@ -1,9 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-// 
+// fonction permettant l'ajout de reminder dans un groupe 
 async function AddReminderInGroup(req, res) {
     return new Promise(async (resolve, reject) => {
+        // récupère le contenu du nouveau rappel 
         const group_name = req.body.groupe;
         const reminder_name = req.body.nom;
         const description = req.body.description;
@@ -12,10 +13,11 @@ async function AddReminderInGroup(req, res) {
         const couleur = req.body.couleur;
         const { email } = req.session.user; // On récupère l'email du createur
 
+
         if (group_name && reminder_name && description && dateEcheance && heureEcheance && couleur) {
             var Date = createISO8601DateTime(dateEcheance,heureEcheance); // converti au format : yyyy-mm-ddThh:mm:ss.000Z
 
-            const rappel = {
+            const rappel = { // Création de l'objet rappel pour insertion
                 nom_groupe: group_name,
                 nom_rappel: reminder_name,
                 description: description,
@@ -26,7 +28,7 @@ async function AddReminderInGroup(req, res) {
             };
 
             try {
-                const createUser = await prisma.rappels.create({ data: rappel });
+                const createUser = await prisma.rappels.create({ data: rappel }); // créé le rappel 
                 console.log('Rappel créé avec succès');
                 resolve(createUser);
             } catch (error) {
@@ -41,11 +43,12 @@ async function AddReminderInGroup(req, res) {
 }
 
 function createISO8601DateTime(dateString, timeString) {
-    const [year, month, day] = dateString.split("-");
-    const [hours, minutes] = timeString.split(":");
-    const dateTime = new Date(year, month - 1, day, hours, minutes);
+    const [year, month, day] = dateString.split("-"); // récupère year, month, day à partir de la date fourni. On récupère la chaîne de char entre chaque - 
+    const [hours, minutes] = timeString.split(":"); // idem pou les heures et minutes
+    const dateTime = new Date(year, month - 1, day, hours, minutes); // on créer la nouvelle date 
   
-    return dateTime.toISOString();
+    return dateTime.toISOString(); // on retourne la date en string
   }
 
+  // on export la fonction 
 module.exports = { AddReminderInGroup };
